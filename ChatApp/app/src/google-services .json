@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "813645175844",
+    "firebase_url": "https://chatapp-7e4bc.firebaseio.com",
+    "project_id": "chatapp-7e4bc",
+    "storage_bucket": "chatapp-7e4bc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:813645175844:android:8b662aa7da774be5",
+        "android_client_info": {
+          "package_name": "vulan.com.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "813645175844-62e300g07dpooms80ocn1p33cimt9krc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1vkl0FgP09_C_T3Gu-IoIlEZPiXEzsRo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
