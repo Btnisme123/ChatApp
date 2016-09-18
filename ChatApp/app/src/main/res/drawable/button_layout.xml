@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/colorAccent"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <gradient android:endColor="@color/cardview_light_background" android:startColor="@color/cardview_dark_background" />
+            <stroke android:color="@color/colorAccent" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
+</selector>

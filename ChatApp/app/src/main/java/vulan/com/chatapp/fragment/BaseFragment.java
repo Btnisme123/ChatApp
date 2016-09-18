@@ -27,6 +27,9 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if (getBaseActivity().getSupportActionBar() != null) {
+
+        }
         getBaseActivity().getSupportActionBar().setTitle(getTitle());
         if (enableBackButton()) {
             getBaseActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
