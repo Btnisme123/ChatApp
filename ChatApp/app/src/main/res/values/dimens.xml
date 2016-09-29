@@ -44,5 +44,6 @@
     <dimen name="common_size_20">20dp</dimen>
     <dimen name="common_size_30">30dp</dimen>
     <dimen name="common_size_50">50dp</dimen>
+    <dimen name="common_size_40">40dp</dimen>
 
 </resources>

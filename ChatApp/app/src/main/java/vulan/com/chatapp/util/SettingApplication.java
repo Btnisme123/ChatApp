@@ -9,9 +9,20 @@ import com.firebase.client.Firebase;
  */
 
 public class SettingApplication extends Application {
+
+    private int mNotificationCount;
+
     @Override
     public void onCreate() {
         super.onCreate();
         Firebase.setAndroidContext(this);
+    }
+
+    public void incrementCount() {
+        mNotificationCount++;
+    }
+
+    public int getBadgeCount() {
+        return mNotificationCount;
     }
 }

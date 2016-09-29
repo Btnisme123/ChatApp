@@ -19,7 +19,7 @@ import vulan.com.chatapp.entity.MessageUser;
  * Created by VULAN on 9/19/2016.
  */
 public class MessageDataSource {
-    private static final Firebase sRef = new Firebase("https://chatapp-a87a2.firebaseio.com");
+    private static final Firebase sRef = new Firebase(Constants.FIREBASE_LINK);
     private static SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMmmss");
     public static String COLUMN_TEXT = "text";
     public static String COLUMN_SENDER = "sender";
@@ -30,8 +30,8 @@ public class MessageDataSource {
         HashMap<String, String> msg = new HashMap<>();
         msg.put(COLUMN_TEXT, message.getText());
         msg.put(COLUMN_SENDER, "Ehai");
-        //sRef.child(Id).child(key).setValue(msg);
-        sRef.child("mot").setValue("hai");
+        sRef.child(Id).child(key).setValue(msg);
+        //sRef.child("mot").setValue("hai");
     }
 
     public static MessageListener addMessageListener(String id, MessageCallback messageCallback) {
@@ -53,7 +53,7 @@ public class MessageDataSource {
 
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            HashMap<String, String> msg = (HashMap<String, String>) dataSnapshot.getValue();
+            HashMap<String, String> msg =dataSnapshot.getValue(HashMap.class);
             MessageUser messageUser = new MessageUser();
             messageUser.setSender(msg.get(COLUMN_SENDER));
             messageUser.setText(msg.get(COLUMN_TEXT));
@@ -88,7 +88,7 @@ public class MessageDataSource {
             Log.e("child cancel ", "");
         }
     }
-    
+
     public interface MessageCallback {
         void onMessageAdded(MessageUser messageUser);
     }

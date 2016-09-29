@@ -35,6 +35,7 @@ public class HomeFragment extends BaseFragment {
         mTabFragmentAdapter.addFragment(new ChatFragment(), getString(R.string.chat));
         mTabFragmentAdapter.addFragment(new ContactFragment(), getString(R.string.contact));
         mViewPager.setAdapter(mTabFragmentAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setTabsFromPagerAdapter(mTabFragmentAdapter);
         mTabLayout.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.tab_layout_background_color));
         mTabLayout.setTabTextColors(ContextCompat.getColor(getActivity(), R.color.white),

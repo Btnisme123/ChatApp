@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import vulan.com.chatapp.R;
 import vulan.com.chatapp.activity.BaseActivity;
@@ -44,6 +45,7 @@ public abstract class BaseFragment extends Fragment {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                Toast.makeText(getActivity(), "click", Toast.LENGTH_LONG).show();
         }
         return super.onOptionsItemSelected(item);
     }

@@ -1,13 +1,12 @@
 package vulan.com.chatapp.fragment;
 
 
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ import vulan.com.chatapp.widget.LinearItemDecoration;
 
 public class ChatFragment extends BaseFragment implements View.OnClickListener, MessageDataSource.MessageCallback {
 
-    private TextView mText;
     private List<MessageUser> mMesseageList;
     private RecyclerView mRecyclerChat;
     private EditText mEditText;
@@ -72,9 +70,8 @@ public class ChatFragment extends BaseFragment implements View.OnClickListener, 
                 messageUser.setText(message);
                 messageUser.setSender("Ahihi");
                 MessageDataSource.saveMessage(messageUser, mId);
-                mMesseageList.add(messageUser);
-                mChatAdapter.notifyDataSetChanged();
-                Toast.makeText(getActivity(),"size : "+mChatAdapter.getItemCount(),Toast.LENGTH_LONG).show();
+                mEditText.setText("");
+                Toast.makeText(getActivity(), "size : " + mChatAdapter.getItemCount(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -83,6 +80,12 @@ public class ChatFragment extends BaseFragment implements View.OnClickListener, 
         mMesseageList.add(messageUser);
         mChatAdapter.notifyItemChanged(mMesseageList.indexOf(messageUser));
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
 
     @Override
     public void onDestroy() {

@@ -28,8 +28,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() > 0) {
             getCurrentFragment().onBackPressed();
+        } else {
+            super.onBackPressed();
         }
-        super.onBackPressed();
     }
 
     public void addFragment() {
