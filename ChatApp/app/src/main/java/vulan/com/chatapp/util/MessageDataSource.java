@@ -1,6 +1,7 @@
 package vulan.com.chatapp.util;
 
 
+import android.content.Context;
 import android.util.Log;
 
 import com.firebase.client.ChildEventListener;
@@ -20,16 +21,18 @@ import vulan.com.chatapp.entity.MessageUser;
  */
 public class MessageDataSource {
     private static final Firebase sRef = new Firebase(Constants.FIREBASE_LINK);
-    private static SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMmmss");
+    private static SimpleDateFormat sDateFormat = new SimpleDateFormat(Constants.FORMAT_TIME);
     public static String COLUMN_TEXT = "text";
     public static String COLUMN_SENDER = "sender";
+    private static Context sContext;
 
     public static void saveMessage(MessageUser message, String Id) {
         Date date = message.getDate();
         String key = sDateFormat.format(date);
         HashMap<String, String> msg = new HashMap<>();
         msg.put(COLUMN_TEXT, message.getText());
-        msg.put(COLUMN_SENDER, "Ehai");
+        msg.put(COLUMN_SENDER, "ba");
+        //"Ehai"
         sRef.child(Id).child(key).setValue(msg);
         //sRef.child("mot").setValue("hai");
     }
@@ -53,7 +56,7 @@ public class MessageDataSource {
 
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            HashMap<String, String> msg =dataSnapshot.getValue(HashMap.class);
+            HashMap<String, String> msg = dataSnapshot.getValue(HashMap.class);
             MessageUser messageUser = new MessageUser();
             messageUser.setSender(msg.get(COLUMN_SENDER));
             messageUser.setText(msg.get(COLUMN_TEXT));
@@ -88,7 +91,7 @@ public class MessageDataSource {
             Log.e("child cancel ", "");
         }
     }
-
+    
     public interface MessageCallback {
         void onMessageAdded(MessageUser messageUser);
     }

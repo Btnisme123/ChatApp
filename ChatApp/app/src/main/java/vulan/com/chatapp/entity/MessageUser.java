@@ -1,6 +1,12 @@
 package vulan.com.chatapp.entity;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
+
+import vulan.com.chatapp.util.Constants;
 
 /**
  * Created by VULAN on 9/19/2016.
@@ -9,6 +15,7 @@ public class MessageUser {
     private String mText;
     private String mSender;
     private Date mDate;
+    private String mDateString;
 
     public MessageUser() {
 
@@ -18,6 +25,7 @@ public class MessageUser {
         this.mText = mText;
         this.mSender = mSender;
     }
+
     public MessageUser(String mText, String mSender, Date mDate) {
         this.mText = mText;
         this.mSender = mSender;
@@ -46,5 +54,18 @@ public class MessageUser {
 
     public void setDate(Date mDate) {
         this.mDate = mDate;
+    }
+
+    public String getDateString() {
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone(Constants.GMT_TIME));
+        Date currentLocalTime = cal.getTime();
+        DateFormat date = new SimpleDateFormat(Constants.FORMAT_TIME);
+        date.setTimeZone(TimeZone.getTimeZone(Constants.GMT_TIME));
+        String localTime = date.format(currentLocalTime);
+        return localTime;
+    }
+
+    public void setDateString(String mDateString) {
+        this.mDateString = mDateString;
     }
 }

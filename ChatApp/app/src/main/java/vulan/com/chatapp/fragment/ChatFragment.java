@@ -52,7 +52,7 @@ public class ChatFragment extends BaseFragment implements View.OnClickListener, 
         String id[] = {"tb", "bt"};
         mMesseageList = new ArrayList<>();
         mMesseageList = FakeContainer.getData();
-        mChatAdapter = new ChatAdapter(mMesseageList);
+        mChatAdapter = new ChatAdapter(mMesseageList, getActivity());
         mRecyclerChat.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerChat.addItemDecoration(new LinearItemDecoration(getActivity()));
         mRecyclerChat.setAdapter(mChatAdapter);

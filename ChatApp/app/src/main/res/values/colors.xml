@@ -30,4 +30,5 @@
     <color name="btn_logut_bg">#ff6861</color>
     <color name="yellow">#f6eeee0d</color>
     <color name="gray">#9dd0c6c6</color>
+    <color name="blue">#ffffff</color>
 </resources>
