@@ -32,7 +32,7 @@ public class HomeFragment extends BaseFragment {
 
     private void init() {
         mTabFragmentAdapter = new TabFragmentAdapter(getChildFragmentManager());
-        mTabFragmentAdapter.addFragment(new ChatFragment(), getString(R.string.chat));
+        mTabFragmentAdapter.addFragment(new ChatRoomFragment(), getString(R.string.room));
         mTabFragmentAdapter.addFragment(new ContactFragment(), getString(R.string.contact));
         mViewPager.setAdapter(mTabFragmentAdapter);
         mTabLayout.setupWithViewPager(mViewPager);

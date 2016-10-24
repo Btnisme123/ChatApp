@@ -21,6 +21,7 @@
         <activity android:name=".activity.MainActivity">
 
         </activity>
+        <activity android:name=".activity.ChatActivity" />
         <activity android:name=".activity.SignUpActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

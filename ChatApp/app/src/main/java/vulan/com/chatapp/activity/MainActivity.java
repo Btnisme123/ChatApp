@@ -1,7 +1,6 @@
 package vulan.com.chatapp.activity;
 
 import vulan.com.chatapp.fragment.BaseFragment;
-import vulan.com.chatapp.fragment.ChatFragment;
 import vulan.com.chatapp.fragment.HomeFragment;
 
 /**

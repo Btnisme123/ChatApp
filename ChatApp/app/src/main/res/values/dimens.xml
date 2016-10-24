@@ -19,6 +19,9 @@
     <dimen name="common_size_300">300dp</dimen>
 
     <!--common text size-->
+    <dimen name="common_text_size_1">11sp</dimen>
+    <dimen name="common_text_size_2">12sp</dimen>
+    <dimen name="common_text_size_3">13sp</dimen>
     <dimen name="common_text_size_4">14sp</dimen>
     <dimen name="common_text_size_5">15sp</dimen>
     <dimen name="common_text_size_6">16sp</dimen>

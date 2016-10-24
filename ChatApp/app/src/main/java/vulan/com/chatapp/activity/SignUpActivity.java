@@ -1,5 +1,6 @@
 package vulan.com.chatapp.activity;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,6 +30,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private static final int BLANK_STATE = 1, TRUE_STATE = 2, MINIMUM_LENGTH_STATE = 3;
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+    public static String sId, sPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,19 +65,21 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void signUp(String id, String password) {
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseAuth.createUserWithEmailAndPassword(id, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(SignUpActivity.this, "success ", Toast.LENGTH_SHORT).show();
-                } else {
-
-                }
-                Toast.makeText(SignUpActivity.this, "" + task.getResult(), Toast.LENGTH_SHORT).show();
-            }
-        });
+    private void signUp(final String id, final String password) {
+//        mFirebaseAuth = FirebaseAuth.getInstance();
+//        mFirebaseAuth.createUserWithEmailAndPassword(id, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//            @Override
+//            public void onComplete(@NonNull Task<AuthResult> task) {
+//                if (task.isSuccessful()) {
+//                    Toast.makeText(SignUpActivity.this, "success ", Toast.LENGTH_SHORT).show();
+//                    signIn(id, password);
+//                } else {
+//                   // Toast.makeText(SignUpActivity.this, "" + task.getResult(), Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     private int checkData(String id, String password) {
@@ -86,5 +90,24 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         } else {
             return BLANK_STATE;
         }
+    }
+
+    private void signIn(final String id, final String password) {
+//        mFirebaseAuth.signInWithEmailAndPassword(id, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//            @Override
+//            public void onComplete(@NonNull Task<AuthResult> task) {
+//                if (!task.isSuccessful()) {
+//                    Toast.makeText(SignUpActivity.this, "" + task.getResult(), Toast.LENGTH_SHORT).show();
+//                } else {
+//                    sId = id;
+//                    sPassword = password;
+//                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+//                    startActivity(intent);
+//                }
+//            }
+//        });
+//
+    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+    startActivity(intent);
     }
 }

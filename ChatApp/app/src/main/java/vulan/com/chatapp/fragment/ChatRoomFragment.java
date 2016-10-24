@@ -1,7 +1,5 @@
 package vulan.com.chatapp.fragment;
 
-
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,19 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vulan.com.chatapp.R;
-import vulan.com.chatapp.adapter.ContactAdapter;
-import vulan.com.chatapp.entity.Contact;
+import vulan.com.chatapp.adapter.ChatRoomAdapter;
+import vulan.com.chatapp.entity.ChatRoom;
 import vulan.com.chatapp.util.FakeContainer;
 import vulan.com.chatapp.widget.LinearItemDecoration;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created by VULAN on 10/18/2016.
  */
-public class ContactFragment extends BaseFragment implements View.OnClickListener {
 
+public class ChatRoomFragment extends BaseFragment {
     private RecyclerView mListRoomRecyclerView;
-    private ContactAdapter mChatRoomAdapter;
-    private List<Contact> mChatRoomList;
+    private ChatRoomAdapter mChatRoomAdapter;
+    private List<ChatRoom> mChatRoomList;
 
     @Override
     protected int getFragmentLayoutId() {
@@ -41,15 +39,10 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
 
     private void init() {
         mChatRoomList = new ArrayList<>();
-        mChatRoomList = FakeContainer.getDataContact();
-        mChatRoomAdapter = new ContactAdapter(mChatRoomList, getActivity());
+        mChatRoomList = FakeContainer.getDataRoom();
+        mChatRoomAdapter = new ChatRoomAdapter(mChatRoomList,getActivity());
         mListRoomRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mListRoomRecyclerView.addItemDecoration(new LinearItemDecoration(getActivity()));
         mListRoomRecyclerView.setAdapter(mChatRoomAdapter);
-    }
-
-    @Override
-    public void onClick(View v) {
-
     }
 }

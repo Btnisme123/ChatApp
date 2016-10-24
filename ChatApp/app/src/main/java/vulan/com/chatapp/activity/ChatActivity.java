@@ -1,7 +1,8 @@
-package vulan.com.chatapp.fragment;
+package vulan.com.chatapp.activity;
 
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -20,7 +21,7 @@ import vulan.com.chatapp.util.FakeContainer;
 import vulan.com.chatapp.util.MessageDataSource;
 import vulan.com.chatapp.widget.LinearItemDecoration;
 
-public class ChatFragment extends BaseFragment implements View.OnClickListener, MessageDataSource.MessageCallback {
+public class ChatActivity extends AppCompatActivity implements View.OnClickListener, MessageDataSource.MessageCallback {
 
     private List<MessageUser> mMesseageList;
     private RecyclerView mRecyclerChat;
@@ -31,20 +32,17 @@ public class ChatFragment extends BaseFragment implements View.OnClickListener, 
     private MessageDataSource.MessageListener mListener;
 
     @Override
-    protected int getFragmentLayoutId() {
-        return R.layout.fragment_chat;
-    }
-
-    @Override
-    protected void onCreateContentView(View rootView) {
-        findView(rootView);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_chat);
+        findView();
         init();
     }
 
-    private void findView(View view) {
-        mEditText = (EditText) view.findViewById(R.id.text_chat);
-        mButtonSend = (ImageView) view.findViewById(R.id.button_send);
-        mRecyclerChat = (RecyclerView) view.findViewById(R.id.recycler_chat);
+    private void findView() {
+        mEditText = (EditText) findViewById(R.id.text_chat);
+        mButtonSend = (ImageView) findViewById(R.id.button_send);
+        mRecyclerChat = (RecyclerView) findViewById(R.id.recycler_chat);
         mButtonSend.setOnClickListener(this);
     }
 
@@ -52,9 +50,10 @@ public class ChatFragment extends BaseFragment implements View.OnClickListener, 
         String id[] = {"tb", "bt"};
         mMesseageList = new ArrayList<>();
         mMesseageList = FakeContainer.getData();
-        mChatAdapter = new ChatAdapter(mMesseageList, getActivity());
-        mRecyclerChat.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerChat.addItemDecoration(new LinearItemDecoration(getActivity()));
+        mChatAdapter = new ChatAdapter(mMesseageList, this);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+        mRecyclerChat.setLayoutManager(linearLayoutManager);
+        mRecyclerChat.addItemDecoration(new LinearItemDecoration(this));
         mRecyclerChat.setAdapter(mChatAdapter);
         mId = id[0] + id[1];
         mListener = MessageDataSource.addMessageListener(mId, this);
@@ -71,7 +70,7 @@ public class ChatFragment extends BaseFragment implements View.OnClickListener, 
                 messageUser.setSender("Ahihi");
                 MessageDataSource.saveMessage(messageUser, mId);
                 mEditText.setText("");
-                Toast.makeText(getActivity(), "size : " + mChatAdapter.getItemCount(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "size : " + mChatAdapter.getItemCount(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -80,12 +79,6 @@ public class ChatFragment extends BaseFragment implements View.OnClickListener, 
         mMesseageList.add(messageUser);
         mChatAdapter.notifyItemChanged(mMesseageList.indexOf(messageUser));
     }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
 
     @Override
     public void onDestroy() {

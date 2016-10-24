@@ -13,7 +13,7 @@ public class LinearItemDecoration extends RecyclerView.ItemDecoration {
     private int mSpace;
 
     public LinearItemDecoration(Context context) {
-        this(context.getResources().getDimensionPixelSize(R.dimen.common_size_7));
+        this(context.getResources().getDimensionPixelSize(R.dimen.common_size_15));
     }
 
     public LinearItemDecoration(int space) {
