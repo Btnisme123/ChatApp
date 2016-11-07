@@ -49,5 +49,6 @@
     <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
     <string name="type_message">Type a message</string>
     <string name="btn_sign_up">SIGN UP</string>
-    <string name="room">room</string>
+    <string name="room">ROOM</string>
+    <string name="action_search">search</string>
 </resources>

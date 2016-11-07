@@ -58,15 +58,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemHolder> {
         });
         if (messageUser.getSender().equals("ba")) {
             holder.mLayoutItemChat.setGravity(Gravity.RIGHT);
-            holder.mImageAvatar.setVisibility(View.GONE);
             holder.mCardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
             holder.mTextChat.setTextColor(mContext.getResources().getColor(R.color.white));
         } else {
             holder.mLayoutItemChat.setGravity(Gravity.LEFT);
-            holder.mImageAvatar.setVisibility(View.VISIBLE);
             holder.mCardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.white));
             holder.mTextChat.setTextColor(mContext.getResources().getColor(R.color.black));
         }
+        holder.mImageAvatar.setVisibility(View.VISIBLE);
     }
 
     @Override

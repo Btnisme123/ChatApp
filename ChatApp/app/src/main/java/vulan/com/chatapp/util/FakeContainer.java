@@ -3,6 +3,7 @@ package vulan.com.chatapp.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import vulan.com.chatapp.R;
 import vulan.com.chatapp.entity.ChatRoom;
 import vulan.com.chatapp.entity.Contact;
 import vulan.com.chatapp.entity.MessageUser;
@@ -22,21 +23,21 @@ public class FakeContainer {
 
     public static List<ChatRoom> getDataRoom() {
         List<ChatRoom> list = new ArrayList<>();
-        list.add(new ChatRoom("Thanh:Hom nay hop nhe", "MTA", ""));
-        list.add(new ChatRoom("Thanh:Hom nay hop nhe", "CLG", ""));
-        list.add(new ChatRoom("Thanh:Hom nay hop nhe", "HUST", ""));
-        list.add(new ChatRoom("Thanh:Hom nay hop nhe", "PTIT", ""));
-        list.add(new ChatRoom("Thanh:Hom nay hop nhe", "FT", ""));
+        list.add(new ChatRoom("thanh:Hôm nay họp nhé", "MTA", ""));
+        list.add(new ChatRoom("Đông:Đi chơi không ", "CLG", ""));
+        list.add(new ChatRoom("Cường:cần một người gánh", "HUST", ""));
+        list.add(new ChatRoom("Việt: Mid or feed", "PTIT", ""));
+        list.add(new ChatRoom("Vinh:Gánh nặng của team", "FT", ""));
         return list;
     }
 
     public static List<Contact> getDataContact() {
         List<Contact> list = new ArrayList<>();
-        list.add(new Contact("Thanh", "MTA"));
-        list.add(new Contact("Hoa", "MTA"));
-        list.add(new Contact("Dong", "MTA"));
-        list.add(new Contact("Cuong", "MTA"));
-        list.add(new Contact("Hung", "MTA"));
+        list.add(new Contact(R.drawable.avatar, "Nguyễn Vũ Lân"));
+        list.add(new Contact(R.drawable.thanh, "Nguyễn Hữu Thanh"));
+        list.add(new Contact(R.drawable.cuong, "Dương Vũ Thái Cường"));
+        list.add(new Contact(R.drawable.dangtung, "Nguyễn Đăng Tùng"));
+        list.add(new Contact(R.drawable.son, "Nguyễn Ngọc Quyết Sơn"));
         return list;
     }
 }

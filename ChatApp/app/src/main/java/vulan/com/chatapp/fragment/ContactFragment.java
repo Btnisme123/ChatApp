@@ -21,8 +21,8 @@ import vulan.com.chatapp.widget.LinearItemDecoration;
 public class ContactFragment extends BaseFragment implements View.OnClickListener {
 
     private RecyclerView mListRoomRecyclerView;
-    private ContactAdapter mChatRoomAdapter;
-    private List<Contact> mChatRoomList;
+    public static ContactAdapter sContactAdapter;
+    public static List<Contact> sContactList;
 
     @Override
     protected int getFragmentLayoutId() {
@@ -40,12 +40,12 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void init() {
-        mChatRoomList = new ArrayList<>();
-        mChatRoomList = FakeContainer.getDataContact();
-        mChatRoomAdapter = new ContactAdapter(mChatRoomList, getActivity());
+        sContactList = new ArrayList<>();
+        sContactList = FakeContainer.getDataContact();
+        sContactAdapter = new ContactAdapter(sContactList, getActivity());
         mListRoomRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mListRoomRecyclerView.addItemDecoration(new LinearItemDecoration(getActivity()));
-        mListRoomRecyclerView.setAdapter(mChatRoomAdapter);
+        mListRoomRecyclerView.setAdapter(sContactAdapter);
     }
 
     @Override

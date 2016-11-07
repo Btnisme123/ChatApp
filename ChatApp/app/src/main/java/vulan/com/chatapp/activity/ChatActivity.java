@@ -51,8 +51,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         mMesseageList = new ArrayList<>();
         mMesseageList = FakeContainer.getData();
         mChatAdapter = new ChatAdapter(mMesseageList, this);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
-        mRecyclerChat.setLayoutManager(linearLayoutManager);
+        mRecyclerChat.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerChat.addItemDecoration(new LinearItemDecoration(this));
         mRecyclerChat.setAdapter(mChatAdapter);
         mId = id[0] + id[1];

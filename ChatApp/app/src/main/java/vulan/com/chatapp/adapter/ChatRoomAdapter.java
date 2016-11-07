@@ -47,6 +47,23 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ItemHo
                 mContext.startActivity(new Intent(mContext, ChatActivity.class));
             }
         });
+        switch (position) {
+            case 1:
+                holder.mImageAvatar.setImageResource(R.drawable.room1);
+                break;
+            case 2:
+                holder.mImageAvatar.setImageResource(R.drawable.room2);
+                break;
+            case 3:
+                holder.mImageAvatar.setImageResource(R.drawable.room3);
+                break;
+            case 4:
+                holder.mImageAvatar.setImageResource(R.drawable.room4);
+                break;
+            case 5:
+                holder.mImageAvatar.setImageResource(R.drawable.room5);
+                break;
+        }
     }
 
     @Override
