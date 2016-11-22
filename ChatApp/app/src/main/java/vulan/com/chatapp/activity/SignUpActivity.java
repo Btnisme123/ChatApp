@@ -77,7 +77,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         String password = mTextPassword.getText().toString();
         switch (checkData(id, password)) {
             case BLANK_STATE:
-                Toast.makeText(SignUpActivity.this, "Blank ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUpActivity.this, "Blank text", Toast.LENGTH_SHORT).show();
                 break;
             case TRUE_STATE:
                 switch (v.getId()) {
@@ -141,7 +141,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     mProgressDialog.dismiss();
                     try{
                         if (!task.isSuccessful()) {
-                           // Toast.makeText(SignUpActivity.this, "" + task.getResult(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, "" + task.getResult(), Toast.LENGTH_SHORT).show();
                         } else {
                             sId = id;
                             sPassword = password;

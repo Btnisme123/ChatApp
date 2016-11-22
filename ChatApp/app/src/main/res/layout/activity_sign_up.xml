@@ -63,6 +63,18 @@
         ​
 
         <Button
+            android:background="@color/colorAccent"
+            android:id="@+id/sign_in_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_size_20"
+            android:text="@string/btn_link_to_login"
+            android:textAllCaps="false"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:textSize="@dimen/common_text_size_4" />
+
+        <Button
             android:id="@+id/sign_up_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,16 +97,7 @@
             android:textColor="@color/colorAccent" />
         ​
 
-        <Button
-            android:id="@+id/sign_in_button"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/common_size_20"
-            android:background="@null"
-            android:text="@string/btn_link_to_login"
-            android:textAllCaps="false"
-            android:textColor="@color/colorAccent"
-            android:textSize="@dimen/common_text_size_4" />
+
     </LinearLayout>
     ​
 
