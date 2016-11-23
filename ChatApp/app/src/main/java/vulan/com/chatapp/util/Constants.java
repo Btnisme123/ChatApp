@@ -10,4 +10,6 @@ public class Constants {
     public static final String GMT_TIME = "GMT+7:00";
     public static final String FORMAT_TIME = "yyyy-MM-dd hh:mm:ss";
     public static final String BLANK_DATA ="Blank in password or id" ;
+    public static final String USER_ID = "user id";
+    public static final String USER_CONTENT = "user content";
 }

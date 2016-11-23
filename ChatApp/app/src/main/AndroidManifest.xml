@@ -18,9 +18,15 @@
         android:theme="@style/AppTheme">
         <service android:name=".util.NotificationService" />
 
-        <activity android:name=".activity.MainActivity">
-
-        </activity>
+        <activity android:name=".activity.MainActivity"/>
+        <receiver android:name=".util.ChatBroadcastReceiver"/>
+        <receiver android:name=".util.ChatStarterReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+                <action android:name="android.intent.action.TIME_SET"/>
+            </intent-filter>
+        </receiver>
         <activity android:name=".activity.ChatActivity" />
         <activity android:name=".activity.SignUpActivity">
             <intent-filter>

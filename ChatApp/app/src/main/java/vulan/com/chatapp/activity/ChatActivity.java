@@ -1,6 +1,7 @@
 package vulan.com.chatapp.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import java.util.List;
 import vulan.com.chatapp.R;
 import vulan.com.chatapp.adapter.ChatAdapter;
 import vulan.com.chatapp.entity.MessageUser;
+import vulan.com.chatapp.util.ChatBroadcastReceiver;
 import vulan.com.chatapp.util.FakeContainer;
 import vulan.com.chatapp.util.MessageDataSource;
 import vulan.com.chatapp.widget.LinearItemDecoration;
@@ -77,6 +79,18 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     public void onMessageAdded(MessageUser messageUser) {
         mMesseageList.add(messageUser);
         mChatAdapter.notifyItemChanged(mMesseageList.indexOf(messageUser));
+        ChatBroadcastReceiver.setupAlarm(getApplicationContext());
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
     }
 
     @Override

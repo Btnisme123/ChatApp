@@ -33,11 +33,12 @@ public abstract class BaseFragment extends Fragment {
         }
         getBaseActivity().getSupportActionBar().setTitle(getTitle());
         if (enableBackButton()) {
-            getBaseActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getBaseActivity().getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+
         } else {
             getBaseActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
+        getBaseActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getBaseActivity().getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
     }
 
     @Override
