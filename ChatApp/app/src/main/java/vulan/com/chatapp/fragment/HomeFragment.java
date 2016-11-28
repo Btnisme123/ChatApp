@@ -1,5 +1,6 @@
 package vulan.com.chatapp.fragment;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -23,6 +24,17 @@ public class HomeFragment extends BaseFragment {
     protected void onCreateContentView(View rootView) {
         findView(rootView);
         init();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    protected boolean enableBackButton() {
+        return true;
     }
 
     private void findView(View rootView) {

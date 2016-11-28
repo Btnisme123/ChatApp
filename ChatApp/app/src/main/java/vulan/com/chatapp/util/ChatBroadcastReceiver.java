@@ -17,15 +17,16 @@ public class ChatBroadcastReceiver extends WakefulBroadcastReceiver {
     private static final String ACTION_START_NOTIFICATION_SERVICE = "ACTION_START_NOTIFICATION_SERVICE";
     private static final String ACTION_DELETE_NOTIFICATION_SERVICE = "ACTION_DELETE_NOTIFICATION_SERVICE";
     private static final int NOTIFICATION_INTERVAL_MINUTES = 1;
-
+    private static String mId;
+    private static String mContent;
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
         Intent serviceIntent = null;
         if (action.equals(ACTION_START_NOTIFICATION_SERVICE)) {
             serviceIntent = NotificationService.createIntentStartNotificationService(context,
-                    intent.getExtras().getString(Constants.USER_ID),
-                    intent.getExtras().getString(Constants.USER_CONTENT));
+                    mId,
+                    mContent);
         } else if (action.equals(ACTION_DELETE_NOTIFICATION_SERVICE)) {
             serviceIntent = NotificationService.deleteIntentStartNotificationService(context);
         }
@@ -45,8 +46,7 @@ public class ChatBroadcastReceiver extends WakefulBroadcastReceiver {
         PendingIntent pendingIntent = getStartingIntent(context);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
                 triggerAt(new Date()),
-                NOTIFICATION_INTERVAL_MINUTES * AlarmManager.INTERVAL_FIFTEEN_MINUTES,
-                pendingIntent);
+               0, pendingIntent);
     }
 
     public static PendingIntent getStartingIntent(Context context) {
@@ -60,4 +60,10 @@ public class ChatBroadcastReceiver extends WakefulBroadcastReceiver {
         intent.setAction(ACTION_DELETE_NOTIFICATION_SERVICE);
         return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
+
+    public static void setData(String content,String ID) {
+        mContent = content;
+        mId=ID;
+    }
+
 }

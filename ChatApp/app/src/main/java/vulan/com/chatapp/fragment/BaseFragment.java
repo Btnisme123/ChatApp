@@ -33,11 +33,11 @@ public abstract class BaseFragment extends Fragment {
         }
         getBaseActivity().getSupportActionBar().setTitle(getTitle());
         if (enableBackButton()) {
-
+            getBaseActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getBaseActivity().getSupportActionBar().setHomeButtonEnabled(true);
         } else {
             getBaseActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
-        getBaseActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getBaseActivity().getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
     }
 
@@ -45,8 +45,9 @@ public abstract class BaseFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
                 Toast.makeText(getActivity(), "click", Toast.LENGTH_LONG).show();
+               getActivity().finish();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

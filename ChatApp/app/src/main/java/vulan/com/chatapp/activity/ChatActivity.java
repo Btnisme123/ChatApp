@@ -69,7 +69,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 messageUser.setDate(new Date());
                 messageUser.setText(message);
                 messageUser.setSender("Ahihi");
-                MessageDataSource.saveMessage(messageUser, mId);
+                if(message.length()!=0){
+                    MessageDataSource.saveMessage(messageUser, mId);
+                }
                 mEditText.setText("");
                 Toast.makeText(this, "size : " + mChatAdapter.getItemCount(), Toast.LENGTH_LONG).show();
         }
@@ -79,7 +81,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     public void onMessageAdded(MessageUser messageUser) {
         mMesseageList.add(messageUser);
         mChatAdapter.notifyItemChanged(mMesseageList.indexOf(messageUser));
-        ChatBroadcastReceiver.setupAlarm(getApplicationContext());
+        if(messageUser.getText().length()!=0){
+            ChatBroadcastReceiver.setData(messageUser.getText(),messageUser.getSender());
+            ChatBroadcastReceiver.setupAlarm(getApplicationContext());
+        }
     }
 
     @Override
