@@ -48,5 +48,9 @@
     <dimen name="common_size_30">30dp</dimen>
     <dimen name="common_size_50">50dp</dimen>
     <dimen name="common_size_40">40dp</dimen>
-
+    <dimen name="common_text_size_17">17sp</dimen>
+    <dimen name="common_size_370">370dp</dimen>
+    <dimen name="common_size_1">1dp</dimen>
+    <dimen name="common_size_164">164dp</dimen>
+    <dimen name="common_size_165">165dp</dimen>
 </resources>

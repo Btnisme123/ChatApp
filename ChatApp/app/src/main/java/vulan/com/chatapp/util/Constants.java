@@ -12,4 +12,5 @@ public class Constants {
     public static final String BLANK_DATA ="Blank in password or id" ;
     public static final String USER_ID = "user id";
     public static final String USER_CONTENT = "user content";
+    public static final String HOME_FRAGMENT = "Home fragment";
 }

@@ -1,48 +1,72 @@
 package vulan.com.chatapp.activity;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import vulan.com.chatapp.R;
+import vulan.com.chatapp.adapter.RecyclerLeftDrawerAdapter;
 import vulan.com.chatapp.entity.Contact;
+import vulan.com.chatapp.entity.DrawerLeftItem;
 import vulan.com.chatapp.fragment.BaseFragment;
 import vulan.com.chatapp.fragment.ContactFragment;
 import vulan.com.chatapp.fragment.HomeFragment;
+import vulan.com.chatapp.listener.OnLeftItemClickListener;
+import vulan.com.chatapp.util.Constants;
+import vulan.com.chatapp.widget.LinearItemDecoration;
 
 /**
  * Created by VULAN on 9/11/2016.
  */
-public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, OnLeftItemClickListener, View.OnClickListener {
+
+    private RecyclerView mLeftRecyclerDrawer;
+    private RecyclerLeftDrawerAdapter mRecyclerLeftDrawerAdapter;
+    private List<DrawerLeftItem> mDrawerLeftItemList;
+    private DrawerLayout mDrawerLayout;
+    private ImageView mButtonMenuLeft;
+    private SearchView mSearchView;
+    private static final int LOGOUT_POSITION = 1, SETTING_POSITION = 0;
+
     @Override
-    protected BaseFragment getFragment() {
-        return new HomeFragment();
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        findView();
+        init();
+        replaceFragment(new HomeFragment(), Constants.HOME_FRAGMENT);
     }
 
-    @Override
-    protected void onCreateContentView() {
-
+    private void findView() {
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mLeftRecyclerDrawer = (RecyclerView) findViewById(R.id.left_recycler_navigation_drawer);
+        mButtonMenuLeft = (ImageView) findViewById(R.id.button_menu_left);
+        mSearchView = (SearchView) findViewById(R.id.search_view);
+        mSearchView.setOnQueryTextListener(this);
+        mButtonMenuLeft.setOnClickListener(this);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_search, menu);
-        MenuItem menuItem = menu.findItem(R.id.item_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
-        searchView.setOnQueryTextListener(this);
-        return super.onCreateOptionsMenu(menu);
+    private void init() {
+        mDrawerLeftItemList = new ArrayList<>();
+        mDrawerLeftItemList.add(new DrawerLeftItem(getString(R.string.change_password), R.drawable.ic_setting));
+        mDrawerLeftItemList.add(new DrawerLeftItem(getString(R.string.logout), R.drawable.ic_logout));
+        mRecyclerLeftDrawerAdapter = new RecyclerLeftDrawerAdapter(this, mDrawerLeftItemList);
+        mLeftRecyclerDrawer.setLayoutManager(new LinearLayoutManager(this));
+        mLeftRecyclerDrawer.addItemDecoration(new LinearItemDecoration(this));
+        mLeftRecyclerDrawer.setAdapter(mRecyclerLeftDrawerAdapter);
+        mRecyclerLeftDrawerAdapter.setOnClick(this);
     }
 
     @Override
@@ -69,8 +93,42 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         return contacts;
     }
 
+    public void replaceFragment(BaseFragment fragment, String tag) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.animator.fragment_slide_right_enter, R.animator.fragment_slide_left_exit,
+                R.animator.fragment_slide_left_enter, R.animator.fragment_slide_right_exit)
+                .replace(R.id.fragment_container, fragment, tag)
+                .addToBackStack("").commit();
+    }
+
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onLeftItemClick(int position) {
+        switch (position) {
+            case LOGOUT_POSITION:
+                finish();
+                break;
+            case SETTING_POSITION:
+                break;
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.button_menu_left:
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+                Toast.makeText(MainActivity.this, "123", Toast.LENGTH_SHORT).show();
+                break;
+
+        }
     }
 }

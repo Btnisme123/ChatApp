@@ -15,6 +15,7 @@ public abstract class BaseFragment extends Fragment {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -23,33 +24,6 @@ public abstract class BaseFragment extends Fragment {
         View rootView = inflater.inflate(getFragmentLayoutId(), container, false);
         onCreateContentView(rootView);
         return rootView;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (getBaseActivity().getSupportActionBar() != null) {
-
-        }
-        getBaseActivity().getSupportActionBar().setTitle(getTitle());
-        if (enableBackButton()) {
-            getBaseActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getBaseActivity().getSupportActionBar().setHomeButtonEnabled(true);
-        } else {
-            getBaseActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        }
-        getBaseActivity().getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                Toast.makeText(getActivity(), "click", Toast.LENGTH_LONG).show();
-               getActivity().finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     public void onBackPressed() {

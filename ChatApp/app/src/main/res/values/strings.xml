@@ -51,4 +51,7 @@
     <string name="btn_sign_up">SIGN UP</string>
     <string name="room">ROOM</string>
     <string name="action_search">search</string>
+    <string name="search">Search</string>
+    <string name="setting">Setting</string>
+    <string name="logout">Logout</string>
 </resources>
