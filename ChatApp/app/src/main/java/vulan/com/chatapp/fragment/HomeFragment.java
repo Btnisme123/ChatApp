@@ -11,7 +11,7 @@ import vulan.com.chatapp.adapter.TabFragmentAdapter;
 
 public class HomeFragment extends BaseFragment {
 
-    private ViewPager mViewPager;
+    public static ViewPager sViewPager;
     private TabLayout mTabLayout;
     private TabFragmentAdapter mTabFragmentAdapter;
 
@@ -39,15 +39,15 @@ public class HomeFragment extends BaseFragment {
 
     private void findView(View rootView) {
         mTabLayout = (TabLayout) rootView.findViewById(R.id.tab_layout);
-        mViewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
+        sViewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
     }
 
     private void init() {
         mTabFragmentAdapter = new TabFragmentAdapter(getChildFragmentManager());
         mTabFragmentAdapter.addFragment(new ChatRoomFragment(), getString(R.string.room));
         mTabFragmentAdapter.addFragment(new ContactFragment(), getString(R.string.contact));
-        mViewPager.setAdapter(mTabFragmentAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
+        sViewPager.setAdapter(mTabFragmentAdapter);
+        mTabLayout.setupWithViewPager(sViewPager);
         mTabLayout.setTabsFromPagerAdapter(mTabFragmentAdapter);
         mTabLayout.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.tab_layout_background_color));
         mTabLayout.setTabTextColors(ContextCompat.getColor(getActivity(), R.color.white),

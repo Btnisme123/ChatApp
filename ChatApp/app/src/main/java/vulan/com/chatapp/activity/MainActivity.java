@@ -18,9 +18,11 @@ import java.util.List;
 
 import vulan.com.chatapp.R;
 import vulan.com.chatapp.adapter.RecyclerLeftDrawerAdapter;
+import vulan.com.chatapp.entity.ChatRoom;
 import vulan.com.chatapp.entity.Contact;
 import vulan.com.chatapp.entity.DrawerLeftItem;
 import vulan.com.chatapp.fragment.BaseFragment;
+import vulan.com.chatapp.fragment.ChatRoomFragment;
 import vulan.com.chatapp.fragment.ContactFragment;
 import vulan.com.chatapp.fragment.HomeFragment;
 import vulan.com.chatapp.listener.OnLeftItemClickListener;
@@ -76,12 +78,23 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        List<Contact> list = filter(ContactFragment.sContactList, newText);
-        ContactFragment.sContactAdapter.animateTo(list);
+        if (HomeFragment.sViewPager != null) {
+            switch (HomeFragment.sViewPager.getCurrentItem()) {
+                case 0:
+                    List<ChatRoom> listChatRoom = filterChatRoom(ChatRoomFragment.sChatRoomList, newText);
+                    ChatRoomFragment.sChatRoomAdapter.animateTo(listChatRoom);
+                    break;
+                case 1:
+                    List<Contact> listContact = filterContact(ContactFragment.sContactList, newText);
+                    ContactFragment.sContactAdapter.animateTo(listContact);
+                    break;
+            }
+        }
+
         return true;
     }
 
-    private List<Contact> filter(List<Contact> list, String query) {
+    private List<Contact> filterContact(List<Contact> list, String query) {
         query = query.toLowerCase();
         List<Contact> contacts = new ArrayList<>();
         for (Contact item : list) {
@@ -90,6 +103,20 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 contacts.add(item);
             }
         }
+        Toast.makeText(this,"1:"+contacts.size(),Toast.LENGTH_SHORT).show();
+        return contacts;
+    }
+
+    private List<ChatRoom> filterChatRoom(List<ChatRoom> list, String query) {
+        query = query.toLowerCase();
+        List<ChatRoom> contacts = new ArrayList<>();
+        for (ChatRoom item : list) {
+            String itemName = item.getTitle().toLowerCase();
+            if (itemName.contains(query)) {
+                contacts.add(item);
+            }
+        }
+        Toast.makeText(this,"0: "+contacts.size(),Toast.LENGTH_SHORT).show();
         return contacts;
     }
 
