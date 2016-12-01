@@ -29,6 +29,8 @@ import vulan.com.chatapp.listener.OnLeftItemClickListener;
 import vulan.com.chatapp.util.Constants;
 import vulan.com.chatapp.widget.LinearItemDecoration;
 
+import static vulan.com.chatapp.activity.SignUpActivity.sFirebaseAuth;
+
 /**
  * Created by VULAN on 9/11/2016.
  */
@@ -141,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public void onLeftItemClick(int position) {
         switch (position) {
             case LOGOUT_POSITION:
+                sFirebaseAuth.signOut();
                 finish();
                 break;
             case SETTING_POSITION:

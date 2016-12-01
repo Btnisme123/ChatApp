@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.RuntimeExecutionException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +29,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private EditText mTextPassword;
     private EditText mTextID;
     private static final int BLANK_STATE = 1, TRUE_STATE = 2, MINIMUM_LENGTH_STATE = 3;
-    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+    public static  FirebaseAuth sFirebaseAuth = FirebaseAuth.getInstance();
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     public static String sId, sPassword;
     private ProgressDialog mProgressDialog;
@@ -98,9 +97,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private void signUp(final String id, final String password) {
         mProgressDialog.show();
-        mFirebaseAuth = FirebaseAuth.getInstance();
+        sFirebaseAuth = FirebaseAuth.getInstance();
 
-            mFirebaseAuth.createUserWithEmailAndPassword(id, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            sFirebaseAuth.createUserWithEmailAndPassword(id, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     mProgressDialog.dismiss();
@@ -135,7 +134,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private void signIn(final String id, final String password) {
 
             mProgressDialog.show();
-            mFirebaseAuth.signInWithEmailAndPassword(id, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            sFirebaseAuth.signInWithEmailAndPassword(id, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     mProgressDialog.dismiss();

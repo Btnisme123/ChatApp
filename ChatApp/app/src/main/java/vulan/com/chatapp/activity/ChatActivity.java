@@ -53,11 +53,23 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         mMesseageList = new ArrayList<>();
         mMesseageList = FakeContainer.getData();
         mChatAdapter = new ChatAdapter(mMesseageList, this);
-        mRecyclerChat.setLayoutManager(new LinearLayoutManager(this));
+        final LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+        mRecyclerChat.setLayoutManager(linearLayoutManager);
         mRecyclerChat.addItemDecoration(new LinearItemDecoration(this));
         mRecyclerChat.setAdapter(mChatAdapter);
         mId = id[0] + id[1];
         mListener = MessageDataSource.addMessageListener(mId, this);
+        mChatAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeChanged(int positionStart, int itemCount) {
+                super.onItemRangeChanged(positionStart, itemCount);
+                int count=mChatAdapter.getItemCount();
+                int lastVisiblePosition=linearLayoutManager.findLastVisibleItemPosition();
+                if(lastVisiblePosition==-1||positionStart>=(count-1)&&lastVisiblePosition==(positionStart-1)){
+                    mRecyclerChat.scrollToPosition(positionStart);
+                }
+            }
+        });
     }
 
     @Override
