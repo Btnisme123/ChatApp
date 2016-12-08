@@ -3,12 +3,14 @@ package vulan.com.chatapp.adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -19,6 +21,7 @@ import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import vulan.com.chatapp.R;
+import vulan.com.chatapp.activity.SignUpActivity;
 import vulan.com.chatapp.entity.MessageUser;
 import vulan.com.chatapp.util.Constants;
 
@@ -43,7 +46,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemHolder> {
 
     @Override
     public void onBindViewHolder(final ItemHolder holder, int position) {
-        MessageUser messageUser = mMessageUserList.get(position);
+        final MessageUser messageUser = mMessageUserList.get(position);
         holder.mTextTime.setText(messageUser.getDateString());
         holder.mTextChat.setText(messageUser.getText());
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
@@ -56,16 +59,26 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemHolder> {
                 }
             }
         });
-        if (messageUser.getSender().equals("ba")) {
+        if(SignUpActivity.sId!=null){
             holder.mLayoutItemChat.setGravity(Gravity.RIGHT);
-            holder.mCardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
-            holder.mTextChat.setTextColor(mContext.getResources().getColor(R.color.white));
-        } else {
-            holder.mLayoutItemChat.setGravity(Gravity.LEFT);
-            holder.mCardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.white));
-            holder.mTextChat.setTextColor(mContext.getResources().getColor(R.color.black));
+            if (messageUser.getSender().equals(SignUpActivity.sId)) {
+
+                holder.mCardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
+                holder.mTextChat.setTextColor(mContext.getResources().getColor(R.color.white));
+            } else {
+                holder.mLayoutItemChat.setGravity(Gravity.LEFT);
+                holder.mCardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.white));
+                holder.mTextChat.setTextColor(mContext.getResources().getColor(R.color.black));
+            }
         }
         holder.mImageAvatar.setVisibility(View.VISIBLE);
+        holder.mCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("sender ",""+messageUser.getSender());
+                Log.e("id ",""+SignUpActivity.sId);
+            }
+        });
     }
 
     @Override

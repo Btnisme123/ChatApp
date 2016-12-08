@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
+import vulan.com.chatapp.activity.SignUpActivity;
 import vulan.com.chatapp.entity.MessageUser;
 
 /**
@@ -31,7 +32,7 @@ public class MessageDataSource {
         String key = sDateFormat.format(date);
         HashMap<String, String> msg = new HashMap<>();
         msg.put(COLUMN_TEXT, message.getText());
-        msg.put(COLUMN_SENDER, "ba");
+        msg.put(COLUMN_SENDER, SignUpActivity.sId);
         //"Ehai"
         sRef.child(Id).child(key).setValue(msg);
         //sRef.child("mot").setValue("hai");
