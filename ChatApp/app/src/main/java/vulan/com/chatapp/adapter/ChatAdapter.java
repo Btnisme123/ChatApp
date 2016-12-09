@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.github.rockerhieu.emojicon.EmojiconTextView;
 import vulan.com.chatapp.R;
 import vulan.com.chatapp.activity.SignUpActivity;
 import vulan.com.chatapp.entity.MessageUser;
@@ -48,7 +49,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemHolder> {
     public void onBindViewHolder(final ItemHolder holder, int position) {
         final MessageUser messageUser = mMessageUserList.get(position);
         holder.mTextTime.setText(messageUser.getDateString());
-        holder.mTextChat.setText(messageUser.getText());
+        holder.mTxtEmojicon.setText(messageUser.getText());
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,11 +65,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemHolder> {
             if (messageUser.getSender().equals(SignUpActivity.sId)) {
 
                 holder.mCardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
-                holder.mTextChat.setTextColor(mContext.getResources().getColor(R.color.white));
+                holder.mTxtEmojicon.setTextColor(mContext.getResources().getColor(R.color.white));
             } else {
                 holder.mLayoutItemChat.setGravity(Gravity.LEFT);
                 holder.mCardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.white));
-                holder.mTextChat.setTextColor(mContext.getResources().getColor(R.color.black));
+                holder.mTxtEmojicon.setTextColor(mContext.getResources().getColor(R.color.black));
             }
         }
         holder.mImageAvatar.setVisibility(View.VISIBLE);
@@ -88,7 +89,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemHolder> {
 
     public class ItemHolder extends RecyclerView.ViewHolder {
 
-        TextView mTextChat;
+        EmojiconTextView mTxtEmojicon;
         CardView mCardView;
         TextView mTextTime;
         CircleImageView mImageAvatar;
@@ -96,7 +97,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemHolder> {
 
         public ItemHolder(View itemView) {
             super(itemView);
-            mTextChat = (TextView) itemView.findViewById(R.id.text_chat);
+            mTxtEmojicon = (EmojiconTextView) itemView.findViewById(R.id.txtEmojicon);
             mTextTime = (TextView) itemView.findViewById(R.id.text_time);
             mCardView = (CardView) itemView.findViewById(R.id.card_item_chat);
             mImageAvatar = (CircleImageView) itemView.findViewById(R.id.image_avatar);

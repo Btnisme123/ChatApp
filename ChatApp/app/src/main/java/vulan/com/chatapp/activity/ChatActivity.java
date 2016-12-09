@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import io.github.rockerhieu.emojicon.EmojiconEditText;
+import io.github.rockerhieu.emojicon.EmojiconGridFragment;
+import io.github.rockerhieu.emojicon.EmojiconsFragment;
+import io.github.rockerhieu.emojicon.emoji.Emojicon;
 import vulan.com.chatapp.R;
 import vulan.com.chatapp.adapter.ChatAdapter;
 import vulan.com.chatapp.entity.MessageUser;
@@ -23,11 +27,12 @@ import vulan.com.chatapp.util.FakeContainer;
 import vulan.com.chatapp.util.MessageDataSource;
 import vulan.com.chatapp.widget.LinearItemDecoration;
 
-public class ChatActivity extends AppCompatActivity implements View.OnClickListener, MessageDataSource.MessageCallback {
+public class ChatActivity extends AppCompatActivity implements View.OnClickListener, MessageDataSource.MessageCallback, EmojiconGridFragment.OnEmojiconClickedListener, EmojiconsFragment.OnEmojiconBackspaceClickedListener {
 
     private List<MessageUser> mMesseageList;
     private RecyclerView mRecyclerChat;
     private EditText mEditText;
+    private EmojiconEditText mEditEmojicon;
     private ImageView mButtonSend;
     private ChatAdapter mChatAdapter;
     private String mId;
@@ -39,10 +44,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_chat);
         findView();
         init();
+        setEmojiconFragment(false);
     }
 
     private void findView() {
-        mEditText = (EditText) findViewById(R.id.text_chat);
+        mEditEmojicon = (EmojiconEditText) findViewById(R.id.text_chat);
         mButtonSend = (ImageView) findViewById(R.id.button_send);
         mRecyclerChat = (RecyclerView) findViewById(R.id.recycler_chat);
         mButtonSend.setOnClickListener(this);
@@ -70,13 +76,14 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
+
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button_send:
-                String message = mEditText.getText().toString();
+                String message = mEditEmojicon.getText().toString();
                 MessageUser messageUser = new MessageUser();
                 messageUser.setDate(new Date());
                 messageUser.setText(message);
@@ -84,8 +91,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 if(message.length()!=0){
                     MessageDataSource.saveMessage(messageUser, mId);
                 }
-                mEditText.setText("");
                 Toast.makeText(this, "size : " + mChatAdapter.getItemCount(), Toast.LENGTH_LONG).show();
+                mEditEmojicon.setText("");
         }
     }
 
@@ -114,5 +121,22 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     public void onDestroy() {
         super.onDestroy();
         MessageDataSource.stopListener(mListener);
+    }
+
+    private void setEmojiconFragment(boolean useSystemDefault) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.emojicons, EmojiconsFragment.newInstance(useSystemDefault))
+                .commit();
+    }
+
+    @Override
+    public void onEmojiconClicked(Emojicon emojicon) {
+        EmojiconsFragment.input(mEditEmojicon, emojicon);
+    }
+
+    @Override
+    public void onEmojiconBackspaceClicked(View v) {
+        EmojiconsFragment.backspace(mEditEmojicon);
     }
 }
