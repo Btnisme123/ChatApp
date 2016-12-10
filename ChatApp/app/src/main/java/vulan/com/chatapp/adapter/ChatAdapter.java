@@ -60,10 +60,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemHolder> {
                 }
             }
         });
-        if(SignUpActivity.sId!=null){
-            holder.mLayoutItemChat.setGravity(Gravity.RIGHT);
+        if(SignUpActivity.sId!=null&& messageUser!=null&&messageUser.getSender()!=null){
             if (messageUser.getSender().equals(SignUpActivity.sId)) {
-
+                holder.mLayoutItemChat.setGravity(Gravity.RIGHT);
                 holder.mCardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
                 holder.mTxtEmojicon.setTextColor(mContext.getResources().getColor(R.color.white));
             } else {
@@ -72,6 +71,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemHolder> {
                 holder.mTxtEmojicon.setTextColor(mContext.getResources().getColor(R.color.black));
             }
         }
+
         holder.mImageAvatar.setVisibility(View.VISIBLE);
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override

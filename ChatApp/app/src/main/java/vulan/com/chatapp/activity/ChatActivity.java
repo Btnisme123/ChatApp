@@ -6,15 +6,21 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.github.rockerhieu.emojicon.EmojiconEditText;
 import io.github.rockerhieu.emojicon.EmojiconGridFragment;
 import io.github.rockerhieu.emojicon.EmojiconsFragment;
@@ -37,6 +43,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private ChatAdapter mChatAdapter;
     private String mId;
     private MessageDataSource.MessageListener mListener;
+    private ImageView mTextEmoji;
+    private FrameLayout mFrameEmoji;
+    private static final int WEIGHT_7=7,WEIGHT_10=10;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,7 +60,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         mEditEmojicon = (EmojiconEditText) findViewById(R.id.text_chat);
         mButtonSend = (ImageView) findViewById(R.id.button_send);
         mRecyclerChat = (RecyclerView) findViewById(R.id.recycler_chat);
+        mTextEmoji= (ImageView) findViewById(R.id.image_emoji);
+        mFrameEmoji= (FrameLayout) findViewById(R.id.emojicons);
         mButtonSend.setOnClickListener(this);
+        mTextEmoji.setOnClickListener(this);
     }
 
     private void init() {
@@ -79,6 +91,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void setParam(int weight){
+        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0,weight);
+        mRecyclerChat.setLayoutParams(params);
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -93,6 +110,17 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 Toast.makeText(this, "size : " + mChatAdapter.getItemCount(), Toast.LENGTH_LONG).show();
                 mEditEmojicon.setText("");
+                break;
+            case R.id.image_emoji:
+                Log.e("","1232323");
+                if(mFrameEmoji.getVisibility()==View.GONE){
+                    setParam(WEIGHT_7);
+                    mFrameEmoji.setVisibility(View.VISIBLE);
+                }else{
+                    setParam(WEIGHT_10);
+                    mFrameEmoji.setVisibility(View.GONE);
+                }
+                break;
         }
     }
 
