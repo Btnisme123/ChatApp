@@ -37,7 +37,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private List<MessageUser> mMesseageList;
     private RecyclerView mRecyclerChat;
-    private EditText mEditText;
     private EmojiconEditText mEditEmojicon;
     private ImageView mButtonSend;
     private ChatAdapter mChatAdapter;
@@ -64,6 +63,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         mFrameEmoji= (FrameLayout) findViewById(R.id.emojicons);
         mButtonSend.setOnClickListener(this);
         mTextEmoji.setOnClickListener(this);
+        mFrameEmoji.setVisibility(View.GONE);
+        setParam(WEIGHT_10);
     }
 
     private void init() {
@@ -114,9 +115,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.image_emoji:
                 Log.e("","1232323");
                 if(mFrameEmoji.getVisibility()==View.GONE){
+                    mTextEmoji.setImageResource(R.drawable.ic_happiness);
                     setParam(WEIGHT_7);
                     mFrameEmoji.setVisibility(View.VISIBLE);
                 }else{
+                    mTextEmoji.setImageResource(R.drawable.ic_emoji);
                     setParam(WEIGHT_10);
                     mFrameEmoji.setVisibility(View.GONE);
                 }

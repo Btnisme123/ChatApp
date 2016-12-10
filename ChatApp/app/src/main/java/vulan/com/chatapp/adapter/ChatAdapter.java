@@ -62,10 +62,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemHolder> {
         });
         if(SignUpActivity.sId!=null&& messageUser!=null&&messageUser.getSender()!=null){
             if (messageUser.getSender().equals(SignUpActivity.sId)) {
+                holder.mImageAvatar.setVisibility(View.VISIBLE);
                 holder.mLayoutItemChat.setGravity(Gravity.RIGHT);
                 holder.mCardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
                 holder.mTxtEmojicon.setTextColor(mContext.getResources().getColor(R.color.white));
             } else {
+                holder.mImageAvatar.setVisibility(View.GONE);
                 holder.mLayoutItemChat.setGravity(Gravity.LEFT);
                 holder.mCardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.white));
                 holder.mTxtEmojicon.setTextColor(mContext.getResources().getColor(R.color.black));
