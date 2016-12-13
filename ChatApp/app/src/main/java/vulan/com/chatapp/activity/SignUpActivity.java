@@ -1,13 +1,21 @@
 package vulan.com.chatapp.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
+import android.provider.SyncStateContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import vulan.com.chatapp.R;
 import vulan.com.chatapp.util.Constants;
 
-public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private static final int MINIMUM_LENGTH = 6;
     private TextView mTextView;
@@ -33,6 +41,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     public static String sId, sPassword;
     private ProgressDialog mProgressDialog;
+    private CheckBox mCheckboxPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +57,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         mButtonSignIn = (Button) findViewById(R.id.sign_in_button);
         mTextID = (EditText) findViewById(R.id.edt_email);
         mTextPassword = (EditText) findViewById(R.id.edt_password);
+        mCheckboxPassword= (CheckBox) findViewById(R.id.checkbox);
         mButtonSignUp.setOnClickListener(this);
         mButtonSignIn.setOnClickListener(this);
+        mCheckboxPassword.setOnCheckedChangeListener(this);
     }
 
     private void init() {
@@ -60,6 +71,17 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         mProgressDialog.setMessage("Authenticating...");
         Typeface typeface = Typeface.createFromAsset(getAssets(), Constants.FONT);
         mTextView.setTypeface(typeface);
+        readPasswordFromCache();
+    }
+
+    private void readPasswordFromCache(){
+      SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String defaultValue="123";
+        String id=sharedPreferences.getString(Constants.USER_ID,defaultValue);
+        String password=sharedPreferences.getString(Constants.USER_PASSWORD,defaultValue);
+        if(!id.equals(defaultValue)){
+            signIn(id,password);
+        }
     }
 
     @Override
@@ -95,17 +117,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void signUp(final String id, final String password) {
+    private void signUp( String id, final String password) {
         mProgressDialog.show();
         sFirebaseAuth = FirebaseAuth.getInstance();
-
             sFirebaseAuth.createUserWithEmailAndPassword(id, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     mProgressDialog.dismiss();
                     if (task.isSuccessful()) {
-                       // Toast.makeText(SignUpActivity.this, "success ", Toast.LENGTH_SHORT).show();
-                        // signIn(id, password);
                         Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                         startActivity(intent);
                     } else {
@@ -152,5 +171,18 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 }
             });
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        if(checkData(mTextID.getText().toString(),mTextPassword.getText().toString())==TRUE_STATE){
+            if(b){
+                SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor=sharedPreferences.edit();
+                editor.putString(Constants.USER_ID,mTextID.getText().toString());
+                editor.putString(Constants.USER_PASSWORD,mTextPassword.getText().toString());
+                editor.commit();
+            }
+        }
     }
 }
