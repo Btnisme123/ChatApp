@@ -1,7 +1,10 @@
 package vulan.com.chatapp.activity;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -48,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        readPasswordFromCache();
         findView();
         init();
         replaceFragment(new HomeFragment(), Constants.HOME_FRAGMENT);
@@ -160,5 +164,27 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 break;
 
         }
+    }
+
+    private void readPasswordFromCache() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String defaultValue = "default value";
+        String id = sharedPreferences.getString(Constants.USER_ID, defaultValue);
+        String password = sharedPreferences.getString(Constants.USER_PASSWORD, defaultValue);
+        if (!id.equals(defaultValue)) {
+           SignUpActivity.sId=id;
+            SignUpActivity.sPassword=password;
+        }else if(SignUpActivity.sId!=null){
+
+        }
+        else{
+            switchToLoginActivity();
+        }
+    }
+
+    private void switchToLoginActivity() {
+        Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

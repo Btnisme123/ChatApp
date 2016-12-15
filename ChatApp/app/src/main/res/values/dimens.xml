@@ -53,4 +53,6 @@
     <dimen name="common_size_1">1dp</dimen>
     <dimen name="common_size_164">164dp</dimen>
     <dimen name="common_size_165">165dp</dimen>
+    <dimen name="common_size_320">320dp</dimen>
+    <dimen name="common_text_size_20">20sp</dimen>
 </resources>
