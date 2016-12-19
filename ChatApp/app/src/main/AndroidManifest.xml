@@ -43,6 +43,7 @@
         <activity android:name=".activity.EmoActivity">
         </activity>
         <activity android:name=".activity.PhotoUploadActivity">
+
         </activity>
         <activity android:name=".activity.PasswordActivity">
         </activity>

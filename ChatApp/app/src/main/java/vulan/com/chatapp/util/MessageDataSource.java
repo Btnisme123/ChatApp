@@ -8,6 +8,8 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,6 +25,7 @@ import vulan.com.chatapp.entity.MessageUser;
 public class MessageDataSource {
     private static final Firebase sRef = new Firebase(Constants.FIREBASE_LINK);
     private static SimpleDateFormat sDateFormat = new SimpleDateFormat(Constants.FORMAT_TIME);
+    public static StorageReference sStorageLink=FirebaseStorage.getInstance().getReferenceFromUrl("gs://chatapp-a87a2.appspot.com");
     public static String COLUMN_TEXT = "text";
     public static String COLUMN_SENDER = "sender";
     private static Context sContext;

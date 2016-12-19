@@ -15,4 +15,5 @@ public class Constants {
     public static final String HOME_FRAGMENT = "Home fragment";
     public static final String USER_PASSWORD = "user password";
     public static final String DEFAULT_VALUE = "default value";
+    public static final int CAMERA_CODE = 1;
 }

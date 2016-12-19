@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:emojicon="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              xmlns:emojicon="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:weightSum="5">
 
@@ -14,9 +14,9 @@
         android:layout_weight="4"
         android:text="14:03"
         android:textSize="@dimen/common_text_size_4"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/layout_item_chat"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -26,29 +26,47 @@
             android:id="@+id/image_avatar"
             android:layout_width="@dimen/common_size_40"
             android:layout_height="@dimen/common_size_40"
-            android:src="@drawable/avatar_default" />
+            android:src="@drawable/avatar_default"/>
+
+        <ProgressBar
+            android:layout_marginLeft="@dimen/common_size_10"
+            android:layout_toRightOf="@id/image_avatar"
+            android:visibility="gone"
+            android:id="@+id/progressBar"
+            android:layout_width="@dimen/common_size_80"
+            android:layout_height="@dimen/common_size_80"/>
+
+        <ImageView
+            android:layout_marginLeft="@dimen/common_size_10"
+            android:layout_toRightOf="@id/image_avatar"
+            android:visibility="gone"
+            android:id="@+id/image_server"
+            android:layout_width="@dimen/common_size_100"
+            android:layout_height="@dimen/common_size_100"/>
 
         <android.support.v7.widget.CardView
             android:id="@+id/card_item_chat"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/common_size_10"
+            android:layout_toRightOf="@id/image_avatar"
             android:background="@drawable/flat_effect"
             android:clickable="true"
-            app:cardCornerRadius="@dimen/common_size_10">
+            app:cardCornerRadius="@dimen/common_size_5">
 
             <io.github.rockerhieu.emojicon.EmojiconTextView
                 android:id="@+id/txtEmojicon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_gravity="center"
-                android:text="123"
+                android:gravity="center"
                 android:minEms="5"
+                android:maxLength="30"
+                android:text="123"
                 android:textSize="@dimen/common_text_size_6"
                 emojicon:emojiconAlignment="baseline"/>
 
         </android.support.v7.widget.CardView>
 
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

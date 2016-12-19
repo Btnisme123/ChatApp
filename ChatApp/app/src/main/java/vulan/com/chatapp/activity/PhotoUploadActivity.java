@@ -6,6 +6,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -40,12 +41,10 @@ public class PhotoUploadActivity extends AppCompatActivity implements View.OnCli
         mButtonChoose= (Button) findViewById(R.id.button_choose_photo);
         mImageView= (ImageView) findViewById(R.id.image_from_server);
         mButtonChoose.setOnClickListener(this);
-        getImage();
     }
 
-    public void getImage(){
-        StorageReference pathReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://chatapp-a87a2.appspot.com").child("Photos/70283");
-        pathReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+    public void getImage(StorageReference storageReference){
+        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Glide.with(PhotoUploadActivity.this)
@@ -70,8 +69,8 @@ public class PhotoUploadActivity extends AppCompatActivity implements View.OnCli
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==CAMERA_CODE&&resultCode==RESULT_OK){
-            Uri uri=data.getData();
-            StorageReference filePath=mStorageReference.child("Photos").child(uri.getLastPathSegment());
+             final Uri uri=data.getData();
+            final StorageReference filePath=mStorageReference.child("Photos").child(uri.getLastPathSegment());
             filePath.putFile(uri).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
@@ -81,6 +80,8 @@ public class PhotoUploadActivity extends AppCompatActivity implements View.OnCli
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(PhotoUploadActivity.this,"Done",Toast.LENGTH_LONG).show();
+                    Log.e("2323",uri.getPath());
+                    getImage(filePath);
                 }
             });
         }

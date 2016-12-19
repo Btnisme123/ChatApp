@@ -1,5 +1,6 @@
 package vulan.com.chatapp.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -8,23 +9,25 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.List;
-import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.github.rockerhieu.emojicon.EmojiconTextView;
 import vulan.com.chatapp.R;
 import vulan.com.chatapp.activity.SignUpActivity;
 import vulan.com.chatapp.entity.MessageUser;
-import vulan.com.chatapp.util.Constants;
 
 /**
  * Created by VULAN on 9/18/2016.
@@ -33,6 +36,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemHolder> {
 
     private List<MessageUser> mMessageUserList;
     private Context mContext;
+    private ProgressDialog mProgressDialog;
 
     public ChatAdapter(List<MessageUser> messageUserList, Context context) {
         this.mMessageUserList = messageUserList;
@@ -49,18 +53,42 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemHolder> {
     public void onBindViewHolder(final ItemHolder holder, int position) {
         final MessageUser messageUser = mMessageUserList.get(position);
         holder.mTextTime.setText(messageUser.getDateString());
-        holder.mTxtEmojicon.setText(messageUser.getText());
-        holder.mCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (holder.mTextTime.getVisibility() == View.VISIBLE) {
-                    holder.mTextTime.setVisibility(View.GONE);
-                } else {
-                    holder.mTextTime.setVisibility(View.VISIBLE);
+        if (messageUser.getText().contains("firebasestorage.googleapis.com")) {
+            holder.mImageView.setVisibility(View.VISIBLE);
+            holder.mTxtEmojicon.setVisibility(View.GONE);
+            holder.mProgressBar.setVisibility(View.VISIBLE);
+            Glide.with(mContext)
+                    .load(messageUser.getText())
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            holder.mProgressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            holder.mProgressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
+                    .into(holder.mImageView);
+        } else {
+            holder.mTxtEmojicon.setVisibility(View.VISIBLE);
+            holder.mImageView.setVisibility(View.GONE);
+            holder.mTxtEmojicon.setText(messageUser.getText());
+            holder.mCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (holder.mTextTime.getVisibility() == View.VISIBLE) {
+                        holder.mTextTime.setVisibility(View.GONE);
+                    } else {
+                        holder.mTextTime.setVisibility(View.VISIBLE);
+                    }
                 }
-            }
-        });
-        if(SignUpActivity.sId!=null&& messageUser!=null&&messageUser.getSender()!=null){
+            });
+        }
+        if (SignUpActivity.sId != null && messageUser.getSender() != null) {
             if (messageUser.getSender().equals(SignUpActivity.sId)) {
                 holder.mImageAvatar.setVisibility(View.VISIBLE);
                 holder.mLayoutItemChat.setGravity(Gravity.RIGHT);
@@ -73,13 +101,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemHolder> {
                 holder.mTxtEmojicon.setTextColor(mContext.getResources().getColor(R.color.black));
             }
         }
-
         holder.mImageAvatar.setVisibility(View.VISIBLE);
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("sender ",""+messageUser.getSender());
-                Log.e("id ",""+SignUpActivity.sId);
+                Log.e("sender ", "" + messageUser.getSender());
+                Log.e("id ", "" + SignUpActivity.sId);
             }
         });
     }
@@ -95,15 +122,19 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ItemHolder> {
         CardView mCardView;
         TextView mTextTime;
         CircleImageView mImageAvatar;
-        LinearLayout mLayoutItemChat;
+        RelativeLayout mLayoutItemChat;
+        ImageView mImageView;
+        ProgressBar mProgressBar;
 
         public ItemHolder(View itemView) {
             super(itemView);
+            mProgressBar= (ProgressBar) itemView.findViewById(R.id.progressBar);
+            mImageView = (ImageView) itemView.findViewById(R.id.image_server);
             mTxtEmojicon = (EmojiconTextView) itemView.findViewById(R.id.txtEmojicon);
             mTextTime = (TextView) itemView.findViewById(R.id.text_time);
             mCardView = (CardView) itemView.findViewById(R.id.card_item_chat);
             mImageAvatar = (CircleImageView) itemView.findViewById(R.id.image_avatar);
-            mLayoutItemChat = (LinearLayout) itemView.findViewById(R.id.layout_item_chat);
+            mLayoutItemChat = (RelativeLayout) itemView.findViewById(R.id.layout_item_chat);
         }
     }
 }
