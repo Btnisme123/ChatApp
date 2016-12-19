@@ -38,7 +38,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private EditText mTextID;
     private static final int BLANK_STATE = 1, TRUE_STATE = 2, MINIMUM_LENGTH_STATE = 3;
     public static  FirebaseAuth sFirebaseAuth = FirebaseAuth.getInstance();
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
     public static String sId, sPassword;
     private ProgressDialog mProgressDialog;
     private CheckBox mCheckboxPassword;
@@ -76,10 +75,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private void readPasswordFromCache(){
       SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String defaultValue="123";
-        String id=sharedPreferences.getString(Constants.USER_ID,defaultValue);
-        String password=sharedPreferences.getString(Constants.USER_PASSWORD,defaultValue);
-        if(!id.equals(defaultValue)){
+        String id=sharedPreferences.getString(Constants.USER_ID,Constants.DEFAULT_VALUE);
+        String password=sharedPreferences.getString(Constants.USER_PASSWORD,Constants.DEFAULT_VALUE);
+        if(!id.equals(Constants.DEFAULT_VALUE)){
             signIn(id,password);
         }
     }

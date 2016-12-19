@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 contacts.add(item);
             }
         }
-        Toast.makeText(this,"1:"+contacts.size(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "1:" + contacts.size(), Toast.LENGTH_SHORT).show();
         return contacts;
     }
 
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 contacts.add(item);
             }
         }
-        Toast.makeText(this,"0: "+contacts.size(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "0: " + contacts.size(), Toast.LENGTH_SHORT).show();
         return contacts;
     }
 
@@ -148,7 +148,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         switch (position) {
             case LOGOUT_POSITION:
                 sFirebaseAuth.signOut();
-                finish();
+                removeCache();
+                startActivity(new Intent(MainActivity.this, SignUpActivity.class));
                 break;
             case SETTING_POSITION:
                 break;
@@ -168,16 +169,14 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     private void readPasswordFromCache() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String defaultValue = "default value";
-        String id = sharedPreferences.getString(Constants.USER_ID, defaultValue);
-        String password = sharedPreferences.getString(Constants.USER_PASSWORD, defaultValue);
-        if (!id.equals(defaultValue)) {
-           SignUpActivity.sId=id;
-            SignUpActivity.sPassword=password;
-        }else if(SignUpActivity.sId!=null){
+        String id = sharedPreferences.getString(Constants.USER_ID, Constants.DEFAULT_VALUE);
+        String password = sharedPreferences.getString(Constants.USER_PASSWORD, Constants.DEFAULT_VALUE);
+        if (!id.equals( Constants.DEFAULT_VALUE)) {
+            SignUpActivity.sId = id;
+            SignUpActivity.sPassword = password;
+        } else if (SignUpActivity.sId != null) {
 
-        }
-        else{
+        } else {
             switchToLoginActivity();
         }
     }
@@ -186,5 +185,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void removeCache() {
+        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Constants.USER_ID, Constants.DEFAULT_VALUE);
+        editor.putString(Constants.USER_PASSWORD,Constants.DEFAULT_VALUE);
+        editor.apply();
     }
 }
