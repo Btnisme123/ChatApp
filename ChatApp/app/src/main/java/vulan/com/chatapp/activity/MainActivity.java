@@ -3,6 +3,7 @@ package vulan.com.chatapp.activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
@@ -11,14 +12,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import vulan.com.chatapp.R;
 import vulan.com.chatapp.adapter.RecyclerLeftDrawerAdapter;
 import vulan.com.chatapp.entity.ChatRoom;
@@ -30,6 +36,7 @@ import vulan.com.chatapp.fragment.ContactFragment;
 import vulan.com.chatapp.fragment.HomeFragment;
 import vulan.com.chatapp.listener.OnLeftItemClickListener;
 import vulan.com.chatapp.util.Constants;
+import vulan.com.chatapp.util.ProfileUtil;
 import vulan.com.chatapp.widget.LinearItemDecoration;
 
 import static vulan.com.chatapp.activity.SignUpActivity.sFirebaseAuth;
@@ -45,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private DrawerLayout mDrawerLayout;
     private ImageView mButtonMenuLeft;
     private SearchView mSearchView;
+    private CircleImageView mImageAvatar;
+    private TextView mTextFullName;
+    private TextView mTextEmail;
     private static final int LOGOUT_POSITION = 1, SETTING_POSITION = 0;
 
     @Override
@@ -62,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         mLeftRecyclerDrawer = (RecyclerView) findViewById(R.id.left_recycler_navigation_drawer);
         mButtonMenuLeft = (ImageView) findViewById(R.id.button_menu_left);
         mSearchView = (SearchView) findViewById(R.id.search_view);
+        mImageAvatar= (CircleImageView) findViewById(R.id.image_avatar);
+        mTextFullName= (TextView) findViewById(R.id.name);
+        mTextEmail= (TextView) findViewById(R.id.user_name);
         mSearchView.setOnQueryTextListener(this);
         mButtonMenuLeft.setOnClickListener(this);
     }
@@ -74,6 +87,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         mLeftRecyclerDrawer.setLayoutManager(new LinearLayoutManager(this));
         mLeftRecyclerDrawer.addItemDecoration(new LinearItemDecoration(this));
         mLeftRecyclerDrawer.setAdapter(mRecyclerLeftDrawerAdapter);
+        if(ProfileUtil.getInstance(MainActivity.this).getCurrentUser()!=null){
+            mTextFullName.setText(ProfileUtil.getInstance(MainActivity.this).getCurrentUser().getDisplayName());
+            mTextEmail.setText(ProfileUtil.getInstance(MainActivity.this).getCurrentUser().getEmail());
+            if(ProfileUtil.getInstance(MainActivity.this).getCurrentUser().getPhotoUrl()!=null){
+                Glide.with(this).load(ProfileUtil.getInstance(MainActivity.this).getCurrentUser().getPhotoUrl()).into(mImageAvatar);
+            }else{
+                Log.e("","null");
+            }
+        }
         mRecyclerLeftDrawerAdapter.setOnClick(this);
     }
 
@@ -139,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            moveTaskToBack(true);
         }
     }
 
@@ -152,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 startActivity(new Intent(MainActivity.this, SignUpActivity.class));
                 break;
             case SETTING_POSITION:
+                startActivity(new Intent(MainActivity.this,ChangingPasswordActivity.class));
                 break;
         }
     }

@@ -13,14 +13,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -31,19 +28,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import io.github.rockerhieu.emojicon.EmojiconEditText;
 import io.github.rockerhieu.emojicon.EmojiconGridFragment;
 import io.github.rockerhieu.emojicon.EmojiconsFragment;
 import io.github.rockerhieu.emojicon.emoji.Emojicon;
 import vulan.com.chatapp.R;
 import vulan.com.chatapp.adapter.ChatAdapter;
-import vulan.com.chatapp.entity.ChatRoom;
 import vulan.com.chatapp.entity.MessageUser;
 import vulan.com.chatapp.util.ChatBroadcastReceiver;
 import vulan.com.chatapp.util.Constants;
 import vulan.com.chatapp.util.FakeContainer;
 import vulan.com.chatapp.util.MessageDataSource;
+import vulan.com.chatapp.util.NetworkUtil;
 import vulan.com.chatapp.widget.LinearItemDecoration;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener, MessageDataSource.MessageCallback, EmojiconGridFragment.OnEmojiconClickedListener, EmojiconsFragment.OnEmojiconBackspaceClickedListener {
@@ -51,18 +47,22 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private List<MessageUser> mMesseageList;
     private RecyclerView mRecyclerChat;
     private EmojiconEditText mEditEmojicon;
-    private ImageView mButtonSend,mButtonCamera,mButtonGallery;
+    private ImageView mButtonSend, mButtonCamera, mButtonGallery;
     private ChatAdapter mChatAdapter;
     private String mId;
     private MessageDataSource.MessageListener mListener;
     private ImageView mTextEmoji;
     private FrameLayout mFrameEmoji;
-    private static final int WEIGHT_7=7,WEIGHT_10=10;
+    private static final int WEIGHT_7 = 7, WEIGHT_10 = 10;
     private StorageReference mStorageReference;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        if (!NetworkUtil.isNetworkAvailable(ChatActivity.this)) {
+            Toast.makeText(ChatActivity.this, "No connection", Toast.LENGTH_SHORT).show();
+        }
         findView();
         init();
         setEmojiconFragment(false);
@@ -72,10 +72,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         mEditEmojicon = (EmojiconEditText) findViewById(R.id.text_chat);
         mButtonSend = (ImageView) findViewById(R.id.button_send);
         mRecyclerChat = (RecyclerView) findViewById(R.id.recycler_chat);
-        mTextEmoji= (ImageView) findViewById(R.id.image_emoji);
-        mFrameEmoji= (FrameLayout) findViewById(R.id.emojicons);
-        mButtonCamera= (ImageView) findViewById(R.id.image_camera);
-        mButtonGallery= (ImageView) findViewById(R.id.image_gallery);
+        mTextEmoji = (ImageView) findViewById(R.id.image_emoji);
+        mFrameEmoji = (FrameLayout) findViewById(R.id.emojicons);
+        mButtonCamera = (ImageView) findViewById(R.id.image_camera);
+        mButtonGallery = (ImageView) findViewById(R.id.image_gallery);
         mButtonSend.setOnClickListener(this);
         mTextEmoji.setOnClickListener(this);
         mButtonCamera.setOnClickListener(this);
@@ -85,12 +85,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void init() {
-        mStorageReference= FirebaseStorage.getInstance().getReferenceFromUrl("gs://chatapp-a87a2.appspot.com");
+        mStorageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://chatapp-a87a2.appspot.com");
         String id[] = {"tb", "bt"};
         mMesseageList = new ArrayList<>();
         mMesseageList = FakeContainer.getData();
         mChatAdapter = new ChatAdapter(mMesseageList, this);
-        final LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mRecyclerChat.setLayoutManager(linearLayoutManager);
         mRecyclerChat.addItemDecoration(new LinearItemDecoration(this));
         mRecyclerChat.setAdapter(mChatAdapter);
@@ -100,9 +100,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onItemRangeChanged(int positionStart, int itemCount) {
                 super.onItemRangeChanged(positionStart, itemCount);
-                int count=mChatAdapter.getItemCount();
-                int lastVisiblePosition=linearLayoutManager.findLastVisibleItemPosition();
-                if(lastVisiblePosition==-1||positionStart>=(count-1)&&lastVisiblePosition==(positionStart-1)){
+                int count = mChatAdapter.getItemCount();
+                int lastVisiblePosition = linearLayoutManager.findLastVisibleItemPosition();
+                if (lastVisiblePosition == -1 || positionStart >= (count - 1) && lastVisiblePosition == (positionStart - 1)) {
                     mRecyclerChat.scrollToPosition(positionStart);
                 }
             }
@@ -110,8 +110,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void setParam(int weight){
-        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0,weight);
+    private void setParam(int weight) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, weight);
         mRecyclerChat.setLayoutParams(params);
     }
 
@@ -124,29 +124,33 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 messageUser.setDate(new Date());
                 messageUser.setText(message);
                 messageUser.setSender("Ahihi");
-                if(message.length()!=0){
-                    MessageDataSource.saveMessage(messageUser, mId);
+                if (message.length() != 0) {
+                    if (NetworkUtil.isNetworkAvailable(ChatActivity.this)) {
+                        MessageDataSource.saveMessage(messageUser, mId);
+                    } else {
+                        Toast.makeText(ChatActivity.this, "No connection", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 mEditEmojicon.setText("");
                 break;
             case R.id.image_emoji:
-                if(mFrameEmoji.getVisibility()==View.GONE){
+                if (mFrameEmoji.getVisibility() == View.GONE) {
                     mTextEmoji.setImageResource(R.drawable.ic_happiness);
                     setParam(WEIGHT_7);
                     mFrameEmoji.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     mTextEmoji.setImageResource(R.drawable.ic_emoji);
                     setParam(WEIGHT_10);
                     mFrameEmoji.setVisibility(View.GONE);
                 }
                 break;
             case R.id.image_camera:
-                Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent,Constants.CAMERA_CODE);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, Constants.CAMERA_CODE);
                 break;
             case R.id.image_gallery:
-                Intent galleryIntent=new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(galleryIntent,Constants.GALLERY_CODE);
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent, Constants.GALLERY_CODE);
                 break;
         }
     }
@@ -155,8 +159,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     public void onMessageAdded(MessageUser messageUser) {
         mMesseageList.add(messageUser);
         mChatAdapter.notifyItemChanged(mMesseageList.indexOf(messageUser));
-        if(messageUser.getText().length()!=0){
-            ChatBroadcastReceiver.setData(messageUser.getText(),messageUser.getSender());
+        if (messageUser.getText().length() != 0) {
+            ChatBroadcastReceiver.setData(messageUser.getText(), messageUser.getSender());
             ChatBroadcastReceiver.setupAlarm(getApplicationContext());
         }
     }
@@ -196,12 +200,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode== Constants.CAMERA_CODE&&resultCode==RESULT_OK) {
+        if (requestCode == Constants.CAMERA_CODE && resultCode == RESULT_OK) {
             final Uri uri = data.getData();
             final StorageReference filePath = mStorageReference.child("Photos").child(uri.getLastPathSegment());
             filePath.putFile(uri).addOnFailureListener(new OnFailureListener() {
@@ -226,19 +228,19 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
         }
-        if(requestCode== Constants.GALLERY_CODE&&resultCode==RESULT_OK&&data!=null){
-             Uri selectedImage=data.getData();
-            String[] filePathColum={MediaStore.Images.Media.DATA};
-            Cursor cursor=getContentResolver().query(selectedImage,filePathColum,null,null,null);
-            if(cursor!=null){
-                if(cursor.moveToFirst()){
-                        int columIndex=cursor.getColumnIndexOrThrow(filePathColum[0]);
-                    String path=cursor.getString(columIndex);
-                    int startPosition=path.lastIndexOf('/');
-                    int length=path.length();
-                    String pathCode="";
-                    for(int i=startPosition+1;i<length;i++){
-                        pathCode+=path.charAt(i);
+        if (requestCode == Constants.GALLERY_CODE && resultCode == RESULT_OK && data != null) {
+            Uri selectedImage = data.getData();
+            String[] filePathColum = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColum, null, null, null);
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    int columIndex = cursor.getColumnIndexOrThrow(filePathColum[0]);
+                    String path = cursor.getString(columIndex);
+                    int startPosition = path.lastIndexOf('/');
+                    int length = path.length();
+                    String pathCode = "";
+                    for (int i = startPosition + 1; i < length; i++) {
+                        pathCode += path.charAt(i);
                     }
                     final StorageReference filePath = mStorageReference.child("Photos").child(pathCode);
                     filePath.putFile(selectedImage).addOnFailureListener(new OnFailureListener() {

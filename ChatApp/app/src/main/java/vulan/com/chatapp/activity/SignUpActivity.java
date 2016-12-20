@@ -96,8 +96,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        String id = mTextID.getText().toString();
-        String password = mTextPassword.getText().toString();
+        String id = mTextID.getText().toString().trim();
+        String password = mTextPassword.getText().toString().trim();
         if(v.getId()==R.id.button_reset){
             startActivity(new Intent(SignUpActivity.this,GettingPasswordActivity.class));
         }else{
