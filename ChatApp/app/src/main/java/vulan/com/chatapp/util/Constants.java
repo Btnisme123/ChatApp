@@ -19,4 +19,9 @@ public class Constants {
     public static final int GALLERY_CODE = 2;
     public static final String ERROR_MIN_CHARACTER = "Should be at least 6 characters ";
     public static final String ERROR_EMAIL = "Wrong type of email";
+
+    public  static final int TRUE_STATE = 2, MINIMUM_LENGTH_STATE = 3,ERROR_EMAIL_STATE=4;
+    public static final int MINIMUM_LENGTH = 6;
+    public static final String SEND_EMAIL_SUCCESS = "Sending email successful";
+    public static final String SEND_EMAIL_FAILED ="Sending email successful" ;
 }

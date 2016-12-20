@@ -37,7 +37,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private Button mButtonSignIn;
     private EditText mTextPassword;
     private EditText mTextID;
-    private static final int BLANK_STATE = 1, TRUE_STATE = 2, MINIMUM_LENGTH_STATE = 3,ERROR_EMAIL_STATE=4;
+    private TextView mButtonResetPassword;
+
     public static  FirebaseAuth sFirebaseAuth = FirebaseAuth.getInstance();
     public static String sId, sPassword;
     private ProgressDialog mProgressDialog;
@@ -58,9 +59,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         mTextID = (EditText) findViewById(R.id.edt_email);
         mTextPassword = (EditText) findViewById(R.id.edt_password);
         mCheckboxPassword= (CheckBox) findViewById(R.id.checkbox);
+        mButtonResetPassword= (TextView) findViewById(R.id.button_reset);
         mButtonSignUp.setOnClickListener(this);
         mButtonSignIn.setOnClickListener(this);
         mCheckboxPassword.setOnCheckedChangeListener(this);
+        mButtonResetPassword.setOnClickListener(this);
     }
 
     private void init() {
@@ -95,27 +98,31 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         String id = mTextID.getText().toString();
         String password = mTextPassword.getText().toString();
-        switch (checkData(id, password)) {
-            case TRUE_STATE:
-                switch (v.getId()) {
-                    case R.id.sign_up_button:
-                        signUp(id, password);
-                        break;
-                    case R.id.sign_in_button:
-                        signIn(id, password);
-                        break;
-                }
-                break;
-            case MINIMUM_LENGTH_STATE:
-                if(mTextID.getText().toString().length()<6){
-                    mTextID.setError(Constants.ERROR_MIN_CHARACTER);
-                }
-                if(mTextPassword.getText().toString().length()<6){
-                    mTextPassword.setError(Constants.ERROR_MIN_CHARACTER);
-                }
-            case ERROR_EMAIL_STATE:
-                mTextID.setError(Constants.ERROR_EMAIL);
-                break;
+        if(v.getId()==R.id.button_reset){
+            startActivity(new Intent(SignUpActivity.this,GettingPasswordActivity.class));
+        }else{
+            switch (checkData(id, password)) {
+                case Constants.TRUE_STATE:
+                    switch (v.getId()) {
+                        case R.id.sign_up_button:
+                            signUp(id, password);
+                            break;
+                        case R.id.sign_in_button:
+                            signIn(id, password);
+                            break;
+                    }
+                    break;
+                case Constants.MINIMUM_LENGTH_STATE:
+                    if(mTextID.getText().toString().length()<6){
+                        mTextID.setError(Constants.ERROR_MIN_CHARACTER);
+                    }
+                    if(mTextPassword.getText().toString().length()<6){
+                        mTextPassword.setError(Constants.ERROR_MIN_CHARACTER);
+                    }
+                case Constants.ERROR_EMAIL_STATE:
+                    mTextID.setError(Constants.ERROR_EMAIL);
+                    break;
+            }
         }
     }
 
@@ -144,11 +151,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private int checkData(String id, String password) {
         if (id.length() < MINIMUM_LENGTH || password.length() < MINIMUM_LENGTH) {
-            return MINIMUM_LENGTH_STATE;
+            return Constants.MINIMUM_LENGTH_STATE;
         }else if(!Patterns.EMAIL_ADDRESS.matcher(id).matches()){
-             return ERROR_EMAIL_STATE;
+             return Constants.ERROR_EMAIL_STATE;
         }
-        return TRUE_STATE;
+        return Constants.TRUE_STATE;
     }
 
     private void signIn(final String id, final String password) {
@@ -176,7 +183,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        if(checkData(mTextID.getText().toString(),mTextPassword.getText().toString())==TRUE_STATE){
+        if(checkData(mTextID.getText().toString(),mTextPassword.getText().toString())==Constants.TRUE_STATE){
             if(b){
                 SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor=sharedPreferences.edit();

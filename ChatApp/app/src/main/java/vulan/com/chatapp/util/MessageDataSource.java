@@ -25,7 +25,6 @@ import vulan.com.chatapp.entity.MessageUser;
 public class MessageDataSource {
     private static final Firebase sRef = new Firebase(Constants.FIREBASE_LINK);
     private static SimpleDateFormat sDateFormat = new SimpleDateFormat(Constants.FORMAT_TIME);
-    public static StorageReference sStorageLink=FirebaseStorage.getInstance().getReferenceFromUrl("gs://chatapp-a87a2.appspot.com");
     public static String COLUMN_TEXT = "text";
     public static String COLUMN_SENDER = "sender";
     private static Context sContext;
