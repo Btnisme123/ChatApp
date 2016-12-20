@@ -7,6 +7,7 @@ import vulan.com.chatapp.R;
 
 public class PasswordActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

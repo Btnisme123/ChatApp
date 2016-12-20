@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.provider.SyncStateContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Patterns;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
@@ -36,7 +37,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private Button mButtonSignIn;
     private EditText mTextPassword;
     private EditText mTextID;
-    private static final int BLANK_STATE = 1, TRUE_STATE = 2, MINIMUM_LENGTH_STATE = 3;
+    private static final int BLANK_STATE = 1, TRUE_STATE = 2, MINIMUM_LENGTH_STATE = 3,ERROR_EMAIL_STATE=4;
     public static  FirebaseAuth sFirebaseAuth = FirebaseAuth.getInstance();
     public static String sId, sPassword;
     private ProgressDialog mProgressDialog;
@@ -95,9 +96,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         String id = mTextID.getText().toString();
         String password = mTextPassword.getText().toString();
         switch (checkData(id, password)) {
-            case BLANK_STATE:
-                Toast.makeText(SignUpActivity.this, "Blank text", Toast.LENGTH_SHORT).show();
-                break;
             case TRUE_STATE:
                 switch (v.getId()) {
                     case R.id.sign_up_button:
@@ -105,12 +103,18 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         break;
                     case R.id.sign_in_button:
                         signIn(id, password);
-                        Toast.makeText(SignUpActivity.this, "success ", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 break;
             case MINIMUM_LENGTH_STATE:
-                Toast.makeText(SignUpActivity.this, "Password or ID should be at least 6 characters  ", Toast.LENGTH_SHORT).show();
+                if(mTextID.getText().toString().length()<6){
+                    mTextID.setError(Constants.ERROR_MIN_CHARACTER);
+                }
+                if(mTextPassword.getText().toString().length()<6){
+                    mTextPassword.setError(Constants.ERROR_MIN_CHARACTER);
+                }
+            case ERROR_EMAIL_STATE:
+                mTextID.setError(Constants.ERROR_EMAIL);
                 break;
         }
     }
@@ -139,11 +143,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private int checkData(String id, String password) {
-        if (id.equals("") || password.equals("")) {
-            return BLANK_STATE;
-        }
         if (id.length() < MINIMUM_LENGTH || password.length() < MINIMUM_LENGTH) {
             return MINIMUM_LENGTH_STATE;
+        }else if(!Patterns.EMAIL_ADDRESS.matcher(id).matches()){
+             return ERROR_EMAIL_STATE;
         }
         return TRUE_STATE;
     }

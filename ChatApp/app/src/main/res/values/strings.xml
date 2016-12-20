@@ -58,4 +58,6 @@
     <string name="choose_photo">Choose Photo</string>
     <string name="no_internet">No internet</string>
     <string name="reload">Reload</string>
+    <string name="hint_new_password">New password</string>
+    <string name="btn_upload_info">Update Information</string>
 </resources>

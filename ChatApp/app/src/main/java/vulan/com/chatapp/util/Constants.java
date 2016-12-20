@@ -17,4 +17,6 @@ public class Constants {
     public static final String DEFAULT_VALUE = "default value";
     public static final int CAMERA_CODE = 1;
     public static final int GALLERY_CODE = 2;
+    public static final String ERROR_MIN_CHARACTER = "Should be at least 6 characters ";
+    public static final String ERROR_EMAIL = "Wrong type of email";
 }
