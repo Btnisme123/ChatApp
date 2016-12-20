@@ -2,6 +2,7 @@ package vulan.com.chatapp.activity;
 
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -78,6 +79,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         mButtonSend.setOnClickListener(this);
         mTextEmoji.setOnClickListener(this);
         mButtonCamera.setOnClickListener(this);
+        mButtonGallery.setOnClickListener(this);
         mFrameEmoji.setVisibility(View.GONE);
         setParam(WEIGHT_10);
     }
@@ -141,6 +143,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.image_camera:
                 Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent,Constants.CAMERA_CODE);
+                break;
+            case R.id.image_gallery:
+                Intent galleryIntent=new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent,Constants.GALLERY_CODE);
                 break;
         }
     }
@@ -219,6 +225,46 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
             });
+        }
+        if(requestCode== Constants.GALLERY_CODE&&resultCode==RESULT_OK&&data!=null){
+             Uri selectedImage=data.getData();
+            String[] filePathColum={MediaStore.Images.Media.DATA};
+            Cursor cursor=getContentResolver().query(selectedImage,filePathColum,null,null,null);
+            if(cursor!=null){
+                if(cursor.moveToFirst()){
+                        int columIndex=cursor.getColumnIndexOrThrow(filePathColum[0]);
+                    String path=cursor.getString(columIndex);
+                    int startPosition=path.lastIndexOf('/');
+                    int length=path.length();
+                    String pathCode="";
+                    for(int i=startPosition+1;i<length;i++){
+                        pathCode+=path.charAt(i);
+                    }
+                    final StorageReference filePath = mStorageReference.child("Photos").child(pathCode);
+                    filePath.putFile(selectedImage).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ChatActivity.this, "Failure", Toast.LENGTH_LONG).show();
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Log.e("", "" + uri.toString());
+                                    MessageUser messageUser = new MessageUser();
+                                    messageUser.setDate(new Date());
+                                    messageUser.setText(uri.toString());
+                                    MessageDataSource.saveMessage(messageUser, mId);
+                                }
+                            });
+
+                        }
+                    });
+                }
+                cursor.close();
+            }
         }
     }
 }

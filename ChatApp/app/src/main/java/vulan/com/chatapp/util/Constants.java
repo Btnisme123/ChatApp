@@ -16,4 +16,5 @@ public class Constants {
     public static final String USER_PASSWORD = "user password";
     public static final String DEFAULT_VALUE = "default value";
     public static final int CAMERA_CODE = 1;
+    public static final int GALLERY_CODE = 2;
 }
