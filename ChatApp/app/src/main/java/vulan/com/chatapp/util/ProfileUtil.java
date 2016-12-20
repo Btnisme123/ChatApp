@@ -68,7 +68,7 @@ public class ProfileUtil {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Log.e("U_STATUS", "User profile updated.");
+                            Toast.makeText(mContext, "User profile updated", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {

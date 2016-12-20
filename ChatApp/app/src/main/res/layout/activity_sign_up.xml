@@ -98,6 +98,7 @@
         ​
 
         <LinearLayout
+            android:layout_marginTop="@dimen/common_size_10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -123,7 +124,7 @@
             android:id="@+id/button_reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/common_text_size_7"
+            android:textSize="@dimen/common_text_size_4"
             android:background="@null"
             android:text="@string/get_password"
             android:textAllCaps="false"

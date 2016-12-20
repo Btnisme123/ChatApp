@@ -3,7 +3,6 @@ package vulan.com.chatapp.activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
@@ -17,7 +16,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -72,9 +70,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         mLeftRecyclerDrawer = (RecyclerView) findViewById(R.id.left_recycler_navigation_drawer);
         mButtonMenuLeft = (ImageView) findViewById(R.id.button_menu_left);
         mSearchView = (SearchView) findViewById(R.id.search_view);
-        mImageAvatar= (CircleImageView) findViewById(R.id.image_avatar);
-        mTextFullName= (TextView) findViewById(R.id.name);
-        mTextEmail= (TextView) findViewById(R.id.user_name);
+        mImageAvatar = (CircleImageView) findViewById(R.id.image_avatar);
+        mTextFullName = (TextView) findViewById(R.id.name);
+        mTextEmail = (TextView) findViewById(R.id.user_name);
         mSearchView.setOnQueryTextListener(this);
         mButtonMenuLeft.setOnClickListener(this);
     }
@@ -87,13 +85,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         mLeftRecyclerDrawer.setLayoutManager(new LinearLayoutManager(this));
         mLeftRecyclerDrawer.addItemDecoration(new LinearItemDecoration(this));
         mLeftRecyclerDrawer.setAdapter(mRecyclerLeftDrawerAdapter);
-        if(ProfileUtil.getInstance(MainActivity.this).getCurrentUser()!=null){
+        if (ProfileUtil.getInstance(MainActivity.this).getCurrentUser() != null) {
             mTextFullName.setText(ProfileUtil.getInstance(MainActivity.this).getCurrentUser().getDisplayName());
             mTextEmail.setText(ProfileUtil.getInstance(MainActivity.this).getCurrentUser().getEmail());
-            if(ProfileUtil.getInstance(MainActivity.this).getCurrentUser().getPhotoUrl()!=null){
+            if (ProfileUtil.getInstance(MainActivity.this).getCurrentUser().getPhotoUrl() != null) {
                 Glide.with(this).load(ProfileUtil.getInstance(MainActivity.this).getCurrentUser().getPhotoUrl()).into(mImageAvatar);
-            }else{
-                Log.e("","null");
+            } else {
+                Log.e("", "null");
             }
         }
         mRecyclerLeftDrawerAdapter.setOnClick(this);
@@ -131,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 contacts.add(item);
             }
         }
-        Toast.makeText(this, "1:" + contacts.size(), Toast.LENGTH_SHORT).show();
         return contacts;
     }
 
@@ -144,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 contacts.add(item);
             }
         }
-        Toast.makeText(this, "0: " + contacts.size(), Toast.LENGTH_SHORT).show();
         return contacts;
     }
 
@@ -174,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 startActivity(new Intent(MainActivity.this, SignUpActivity.class));
                 break;
             case SETTING_POSITION:
-                startActivity(new Intent(MainActivity.this,ChangingPasswordActivity.class));
+                startActivity(new Intent(MainActivity.this, ChangingPasswordActivity.class));
                 break;
         }
     }
@@ -184,7 +180,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         switch (view.getId()) {
             case R.id.button_menu_left:
                 mDrawerLayout.openDrawer(Gravity.LEFT);
-                Toast.makeText(MainActivity.this, "123", Toast.LENGTH_SHORT).show();
                 break;
 
         }
@@ -194,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String id = sharedPreferences.getString(Constants.USER_ID, Constants.DEFAULT_VALUE);
         String password = sharedPreferences.getString(Constants.USER_PASSWORD, Constants.DEFAULT_VALUE);
-        if (!id.equals( Constants.DEFAULT_VALUE)) {
+        if (!id.equals(Constants.DEFAULT_VALUE)) {
             SignUpActivity.sId = id;
             SignUpActivity.sPassword = password;
         } else if (SignUpActivity.sId != null) {
@@ -211,10 +206,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     private void removeCache() {
-        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(Constants.USER_ID, Constants.DEFAULT_VALUE);
-        editor.putString(Constants.USER_PASSWORD,Constants.DEFAULT_VALUE);
+        editor.putString(Constants.USER_PASSWORD, Constants.DEFAULT_VALUE);
         editor.apply();
     }
 }
