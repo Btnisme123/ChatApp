@@ -2,14 +2,17 @@ package vulan.com.chatapp.activity;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -28,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import io.fabric.sdk.android.Fabric;
 import io.github.rockerhieu.emojicon.EmojiconEditText;
 import io.github.rockerhieu.emojicon.EmojiconGridFragment;
 import io.github.rockerhieu.emojicon.EmojiconsFragment;
@@ -59,6 +64,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
+        //readPasswordFromCache();
         setContentView(R.layout.activity_chat);
         if (!NetworkUtil.isNetworkAvailable(ChatActivity.this)) {
             Toast.makeText(ChatActivity.this, "No connection", Toast.LENGTH_SHORT).show();
@@ -67,6 +74,25 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         init();
         setEmojiconFragment(false);
     }
+
+    private void readPasswordFromCache() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String id = sharedPreferences.getString(Constants.USER_ID, Constants.DEFAULT_VALUE);
+        String password = sharedPreferences.getString(Constants.USER_PASSWORD, Constants.DEFAULT_VALUE);
+        if (!id.equals(Constants.DEFAULT_VALUE)) {
+            SignUpActivity.sId = id;
+            SignUpActivity.sPassword = password;
+        } else {
+            switchToLoginActivity();
+        }
+    }
+
+    private void switchToLoginActivity() {
+        Intent intent = new Intent(ChatActivity.this, SignUpActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 
     private void findView() {
         mEditEmojicon = (EmojiconEditText) findViewById(R.id.text_chat);
@@ -214,17 +240,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Log.e("", "" + uri.toString());
-                            MessageUser messageUser = new MessageUser();
-                            messageUser.setDate(new Date());
-                            messageUser.setText(uri.toString());
-                            MessageDataSource.saveMessage(messageUser, mId);
-                        }
-                    });
-
+                    if(taskSnapshot.getDownloadUrl()!=null){
+                        MessageUser messageUser = new MessageUser();
+                        messageUser.setDate(new Date());
+                        messageUser.setText(taskSnapshot.getDownloadUrl().toString());
+                        MessageDataSource.saveMessage(messageUser, mId);
+                        Log.e("link : ",""+taskSnapshot.getDownloadUrl().toString());
+                    }
                 }
             });
         }
@@ -251,17 +273,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    Log.e("", "" + uri.toString());
-                                    MessageUser messageUser = new MessageUser();
-                                    messageUser.setDate(new Date());
-                                    messageUser.setText(uri.toString());
-                                    MessageDataSource.saveMessage(messageUser, mId);
-                                }
-                            });
-
+                            if(taskSnapshot.getDownloadUrl()!=null){
+                                MessageUser messageUser = new MessageUser();
+                                messageUser.setDate(new Date());
+                                messageUser.setText(taskSnapshot.getDownloadUrl().toString());
+                                MessageDataSource.saveMessage(messageUser, mId);
+                            }
                         }
                     });
                 }

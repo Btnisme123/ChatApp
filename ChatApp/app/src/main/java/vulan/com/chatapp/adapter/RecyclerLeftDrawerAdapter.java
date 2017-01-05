@@ -51,7 +51,6 @@ public class RecyclerLeftDrawerAdapter extends RecyclerView.Adapter<RecyclerLeft
             @Override
             public void onClick(View v) {
                 mOnRecyclerItemInteractListener.onLeftItemClick(position);
-                Toast.makeText(mContext,""+position,Toast.LENGTH_SHORT).show();
             }
         });
     }

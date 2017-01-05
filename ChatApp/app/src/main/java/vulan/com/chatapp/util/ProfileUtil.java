@@ -74,7 +74,7 @@ public class ProfileUtil {
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.e("U_STATUS", "1: "+e);
+                Toast.makeText(mContext,""+e.getMessage(), Toast.LENGTH_SHORT).show();;
             }
         });
         AuthCredential credential = EmailAuthProvider
@@ -95,7 +95,7 @@ public class ProfileUtil {
                                 }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.e("U_STATUS", "2: "+e);
+                                Toast.makeText(mContext,""+e.getMessage(), Toast.LENGTH_SHORT).show();;
                             }
                         });
                     }

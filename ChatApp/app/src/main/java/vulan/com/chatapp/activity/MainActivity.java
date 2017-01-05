@@ -85,6 +85,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         mLeftRecyclerDrawer.setLayoutManager(new LinearLayoutManager(this));
         mLeftRecyclerDrawer.addItemDecoration(new LinearItemDecoration(this));
         mLeftRecyclerDrawer.setAdapter(mRecyclerLeftDrawerAdapter);
+        setInfo();
+        mRecyclerLeftDrawerAdapter.setOnClick(this);
+    }
+
+    private void setInfo() {
         if (ProfileUtil.getInstance(MainActivity.this).getCurrentUser() != null) {
             mTextFullName.setText(ProfileUtil.getInstance(MainActivity.this).getCurrentUser().getDisplayName());
             mTextEmail.setText(ProfileUtil.getInstance(MainActivity.this).getCurrentUser().getEmail());
@@ -94,7 +99,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 Log.e("", "null");
             }
         }
-        mRecyclerLeftDrawerAdapter.setOnClick(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setInfo();
     }
 
     @Override

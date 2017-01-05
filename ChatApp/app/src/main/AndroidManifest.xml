@@ -51,6 +51,9 @@
         <activity android:name=".activity.ChangingPasswordActivity">
 
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="7a42a6dd7e0d03f347ba4e2785ed24cc5cbed197" />
     </application>
 
 </manifest>
