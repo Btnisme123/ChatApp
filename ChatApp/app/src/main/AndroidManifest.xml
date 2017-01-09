@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name=".util.NotificationService"/>
+        <service android:name=".service.NotificationService"/>
 
         <activity android:name=".activity.MainActivity">
             <intent-filter>
@@ -27,8 +27,8 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".util.ChatBroadcastReceiver"/>
-        <receiver android:name=".util.ChatStarterReceiver">
+        <receiver android:name=".service.ChatBroadcastReceiver"/>
+        <receiver android:name=".service.ChatStarterReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.TIMEZONE_CHANGED"/>

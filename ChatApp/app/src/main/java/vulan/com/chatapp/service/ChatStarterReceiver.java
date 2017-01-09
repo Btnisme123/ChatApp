@@ -1,4 +1,4 @@
-package vulan.com.chatapp.util;
+package vulan.com.chatapp.service;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

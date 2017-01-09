@@ -3,6 +3,8 @@ package vulan.com.chatapp.util;
 import android.content.Context;
 import android.content.Intent;
 
+import vulan.com.chatapp.service.NotificationService;
+
 /**
  * Created by VULAN on 9/26/2016.
  */

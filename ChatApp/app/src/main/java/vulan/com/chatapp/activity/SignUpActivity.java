@@ -185,7 +185,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(Constants.USER_ID, mTextID.getText().toString());
                 editor.putString(Constants.USER_PASSWORD, mTextPassword.getText().toString());
-                editor.commit();
+                editor.apply();
             }
         }
     }
