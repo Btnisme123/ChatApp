@@ -8,8 +8,6 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,7 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import vulan.com.chatapp.activity.SignUpActivity;
-import vulan.com.chatapp.entity.MessageUser;
+import vulan.com.chatapp.newtype.model.MessageUser;
 
 /**
  * Created by VULAN on 9/19/2016.

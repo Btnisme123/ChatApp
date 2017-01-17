@@ -18,8 +18,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -27,7 +25,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import io.github.rockerhieu.emojicon.EmojiconTextView;
 import vulan.com.chatapp.R;
 import vulan.com.chatapp.activity.SignUpActivity;
-import vulan.com.chatapp.entity.MessageUser;
+import vulan.com.chatapp.newtype.model.MessageUser;
 
 /**
  * Created by VULAN on 9/18/2016.

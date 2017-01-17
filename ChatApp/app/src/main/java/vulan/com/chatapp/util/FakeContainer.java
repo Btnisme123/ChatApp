@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vulan.com.chatapp.R;
-import vulan.com.chatapp.entity.ChatRoom;
-import vulan.com.chatapp.entity.Contact;
-import vulan.com.chatapp.entity.MessageUser;
+import vulan.com.chatapp.newtype.model.ChatRoom;
+import vulan.com.chatapp.newtype.model.Contact;
+import vulan.com.chatapp.newtype.model.MessageUser;
 
 /**
  * Created by VULAN on 9/20/2016.

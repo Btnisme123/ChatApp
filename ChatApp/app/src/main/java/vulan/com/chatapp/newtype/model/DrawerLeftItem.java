@@ -1,4 +1,4 @@
-package vulan.com.chatapp.entity;
+package vulan.com.chatapp.newtype.model;
 
 /**
  * Created by VULAN on 10/21/2016.

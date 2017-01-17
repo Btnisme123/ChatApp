@@ -12,10 +12,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import vulan.com.chatapp.R;
 import vulan.com.chatapp.activity.ChatActivity;
-import vulan.com.chatapp.entity.Contact;
+import vulan.com.chatapp.newtype.model.Contact;
+import vulan.com.chatapp.util.FakeContainer;
 
 /**
  * Created by VULAN on 10/18/2016.
@@ -40,17 +44,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ItemHold
 
     @Override
     public void onBindViewHolder(ContactAdapter.ItemHolder holder, int position) {
-        Contact contactObject = mContactList.get(position);
-        holder.mTextTitle.setText(contactObject.getName());
-        holder.mChatRoomLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, ChatActivity.class));
-            }
-        });
-
-        holder.mImageAvatar.setImageResource(contactObject.getmImageFake());
-
+        holder.bind(position);
     }
 
     public Contact removeItem(int position) {
@@ -122,17 +116,26 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ItemHold
     }
 
     public class ItemHolder extends RecyclerView.ViewHolder {
-
+        @BindView(R.id.text_title)
         TextView mTextTitle;
-        TextView mTextContent;
+        @BindView(R.id.image_avatar)
         CircleImageView mImageAvatar;
-        LinearLayout mChatRoomLayout;
 
         public ItemHolder(View itemView) {
             super(itemView);
-            mTextTitle = (TextView) itemView.findViewById(R.id.text_title);
-            mImageAvatar = (CircleImageView) itemView.findViewById(R.id.image_avatar);
-            mChatRoomLayout = (LinearLayout) itemView.findViewById(R.id.layout_chat_room);
+            ButterKnife.bind(this,itemView);
         }
+
+        private void bind(int position){
+            Contact contact=mContactList.get(position);
+           mTextTitle.setText(contact.getName());
+            mImageAvatar.setImageResource(contact.getmImageFake());
+        }
+
+        @OnClick(R.id.layout_chat_room)
+        void onClick(){
+            mContext.startActivity(new Intent(mContext, ChatActivity.class));
+        }
+
     }
 }

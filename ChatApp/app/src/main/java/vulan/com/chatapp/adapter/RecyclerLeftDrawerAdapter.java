@@ -8,12 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import vulan.com.chatapp.R;
-import vulan.com.chatapp.entity.DrawerLeftItem;
+import vulan.com.chatapp.newtype.model.DrawerLeftItem;
 import vulan.com.chatapp.listener.OnLeftItemClickListener;
 
 

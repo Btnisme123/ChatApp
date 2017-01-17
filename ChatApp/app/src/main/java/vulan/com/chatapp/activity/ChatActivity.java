@@ -38,7 +38,7 @@ import io.github.rockerhieu.emojicon.EmojiconsFragment;
 import io.github.rockerhieu.emojicon.emoji.Emojicon;
 import vulan.com.chatapp.R;
 import vulan.com.chatapp.adapter.ChatAdapter;
-import vulan.com.chatapp.entity.MessageUser;
+import vulan.com.chatapp.newtype.model.MessageUser;
 import vulan.com.chatapp.service.ChatBroadcastReceiver;
 import vulan.com.chatapp.util.Constants;
 import vulan.com.chatapp.util.FakeContainer;

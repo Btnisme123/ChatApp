@@ -1,4 +1,4 @@
-package vulan.com.chatapp.entity;
+package vulan.com.chatapp.newtype.model;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

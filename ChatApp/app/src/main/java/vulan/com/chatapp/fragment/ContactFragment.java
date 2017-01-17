@@ -11,7 +11,7 @@ import java.util.List;
 
 import vulan.com.chatapp.R;
 import vulan.com.chatapp.adapter.ContactAdapter;
-import vulan.com.chatapp.entity.Contact;
+import vulan.com.chatapp.newtype.model.Contact;
 import vulan.com.chatapp.util.FakeContainer;
 import vulan.com.chatapp.widget.LinearItemDecoration;
 

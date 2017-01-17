@@ -9,7 +9,7 @@ import java.util.List;
 
 import vulan.com.chatapp.R;
 import vulan.com.chatapp.adapter.ChatRoomAdapter;
-import vulan.com.chatapp.entity.ChatRoom;
+import vulan.com.chatapp.newtype.model.ChatRoom;
 import vulan.com.chatapp.util.FakeContainer;
 import vulan.com.chatapp.widget.LinearItemDecoration;
 

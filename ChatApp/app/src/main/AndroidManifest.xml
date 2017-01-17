@@ -20,11 +20,7 @@
         <service android:name=".service.NotificationService"/>
 
         <activity android:name=".activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
 
         <receiver android:name=".service.ChatBroadcastReceiver"/>
@@ -49,11 +45,19 @@
         <activity android:name=".activity.GettingPasswordActivity">
         </activity>
         <activity android:name=".activity.ChangingPasswordActivity">
-
         </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="7a42a6dd7e0d03f347ba4e2785ed24cc5cbed197" />
+            android:value="7a42a6dd7e0d03f347ba4e2785ed24cc5cbed197"/>
+
+        <activity android:name=".newtype.login.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

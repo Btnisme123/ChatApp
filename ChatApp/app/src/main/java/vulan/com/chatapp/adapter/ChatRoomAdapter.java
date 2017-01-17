@@ -15,8 +15,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import vulan.com.chatapp.R;
 import vulan.com.chatapp.activity.ChatActivity;
-import vulan.com.chatapp.entity.ChatRoom;
-import vulan.com.chatapp.entity.Contact;
+import vulan.com.chatapp.newtype.model.ChatRoom;
 
 /**
  * Created by VULAN on 10/18/2016.
