@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import vulan.com.chatapp.R;
+import vulan.com.chatapp.activity.GettingPasswordActivity;
 import vulan.com.chatapp.activity.MainActivity;
 import vulan.com.chatapp.util.Constants;
 
@@ -52,7 +54,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mLoginPresenter = new LoginPresenter(this, this);
+        mLoginPresenter = new LoginPresenter(this);
         ButterKnife.bind(this);
         initProgressDialog();
     }
@@ -103,13 +105,17 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         });
     }
 
-    @OnClick(R.id.sign_in_button)
-    void onClickButtonLogin() {
-        mLoginPresenter.validateCredentials(mTextID.getText().toString(), mTextPassword.getText().toString());
+    @OnClick({R.id.sign_in_button,R.id.button_reset})
+    void onClickButton(View view) {
+         if(view.getId()==R.id.sign_in_button){
+             mLoginPresenter.validateCredentials(mTextID.getText().toString(), mTextPassword.getText().toString());
+         }else{
+             startActivity(new Intent(this, GettingPasswordActivity.class));
+         }
     }
 
     @Override
     public void setPresenter(Object presenter) {
-        checkNotNull(presenter);
+        //checkNotNull(presenter);
     }
 }

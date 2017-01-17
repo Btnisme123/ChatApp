@@ -18,7 +18,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     private LoginContract.View mLoginView;
 
-    public LoginPresenter(LoginContract.View loginView, Activity activity) {
+    public LoginPresenter(LoginContract.View loginView) {
         mLoginView = loginView;
         mLoginView.setPresenter(this);
     }
